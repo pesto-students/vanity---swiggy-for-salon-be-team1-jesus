@@ -1,0 +1,25 @@
+{
+  "name": "vanity---swiggy-for-salon-be-team1-jesus",
+  "version": "1.0.0",
+  "description": "Welcome to Pesto assignments.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pesto-students/vanity---swiggy-for-salon-be-team1-jesus.git"
+  },
+  "author": "Vivek Hande",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pesto-students/vanity---swiggy-for-salon-be-team1-jesus/issues"
+  },
+  "homepage": "https://github.com/pesto-students/vanity---swiggy-for-salon-be-team1-jesus#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
