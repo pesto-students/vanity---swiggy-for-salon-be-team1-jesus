@@ -25,3 +25,4 @@ jobs:
           heroku_api_key: ${{ secrets.Heroku_secret }}
           heroku_app_name: 'vanity-swiggy-for-salons-be'
           heroku_email: 'axcal16@gmail.com'
+      - run: npm i
