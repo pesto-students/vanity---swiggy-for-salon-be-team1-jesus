@@ -2,14 +2,11 @@ const express = require('express');
 require('dotenv').config();
 
 const db = require('./database');
+const userRouter = require('./routes/userRoute');
 
 const app = express();
 
-app.get('/api/v1', (req, res) => {
-  res.status(200).json({
-    message: 'success',
-  });
-});
+app.get('/api/v1/user', userRouter);
 
 db.query(`select * from vanity.users`, (err, res) => {
   console.log(res);
