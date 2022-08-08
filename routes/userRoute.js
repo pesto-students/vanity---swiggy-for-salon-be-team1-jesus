@@ -1,6 +1,12 @@
 const express = require('express');
-
+const db = require('../database');
+const cors = require('cors');
 const userRouter = express.Router();
+const bcrypt = require('bcrypt');
+// const bodyParser = require('body-parser');
+// const cookieParser = require('cookie-parser');
+// const session = require('express-session');
+const saltRounds = 10;
 
 userRouter.use(express.json());
 userRouter.use(
@@ -17,9 +23,9 @@ userRouter.post('/signup', (req, res) => {
   const phone = req.body.phone;
   const password = req.body.password;
   const city = req.body.city;
-  const gender = req.body.gender;
-  const budget = req.body.budget;
-  const rating = req.body.rating;
+  const gender = req.body.gender || 'Not Mentioned';
+  const budget = req.body.budget || 0;
+  const rating = req.body.rating || 0;
   const vanityid = 'USR-' + Math.random().toString(36);
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
@@ -33,7 +39,13 @@ userRouter.post('/signup', (req, res) => {
       'INSERT into users(vanityid, name, email, phone, password, city, Gender, budget, rating) VALUES(?,?,?,?,?,?,?,?,?)',
       [vanityid, name, email, phone, hash, city, gender, budget, rating],
       (err, result) => {
-        console.log(err);
+        if (err) {
+          res.status(400).json({
+            err: err.sqlMessage,
+          });
+          return;
+        }
+
         res.status(201).json({
           message: 'Signup successfull',
           result,
@@ -72,6 +84,13 @@ userRouter.post('/login', async (req, res) => {
         message: 'user doesnt exist',
       });
     }
+  });
+});
+
+userRouter.post('/aps', (req, res) => {
+  console.log(req);
+  res.send({
+    message: 'good',
   });
 });
 
