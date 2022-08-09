@@ -1,23 +1,21 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 
 const userRouter = require('./routes/userRoute');
 
 const app = express();
 
-app.post('/api/v1/qwe', (req, res) => {
-  console.log(req.body);
-  res.status(200).json({
-    message: 'reached server',
-    good: 'good',
-  });
-});
+app.use(express.json());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  })
+);
 
 app.use('/api/v1/user', userRouter);
-
-// db.query(`select * from vanity.users`, (err, res) => {
-//   console.log(res);
-// });
 
 const PORT = process.env.PORT;
 app.listen(PORT || 3001, () => {

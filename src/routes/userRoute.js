@@ -1,21 +1,9 @@
 const express = require('express');
-const db = require('../database');
-const cors = require('cors');
+const db = require('../utils/database');
 const userRouter = express.Router();
 const bcrypt = require('bcrypt');
-// const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
-// const session = require('express-session');
-const saltRounds = 10;
 
-userRouter.use(express.json());
-userRouter.use(
-  cors({
-    origin: ['http://localhost:3000'],
-    methods: ['GET', 'POST'],
-    credentials: true,
-  })
-);
+const saltRounds = 10;
 
 userRouter.post('/signup', (req, res) => {
   const name = req.body.name;
@@ -25,6 +13,7 @@ userRouter.post('/signup', (req, res) => {
   const city = req.body.city;
   const gender = req.body.gender || 'Not Mentioned';
   const budget = req.body.budget || 0;
+
   const rating = req.body.rating || 0;
   const vanityid = 'USR-' + Math.random().toString(36);
 
