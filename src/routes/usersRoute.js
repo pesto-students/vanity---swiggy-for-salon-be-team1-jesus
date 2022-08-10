@@ -1,11 +1,11 @@
 const express = require('express');
 const db = require('../utils/database');
-const userRouter = express.Router();
+const usersRouter = express.Router();
 const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
-userRouter.post('/signup', (req, res) => {
+usersRouter.post('/signup', (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const phone = req.body.phone;
@@ -44,7 +44,7 @@ userRouter.post('/signup', (req, res) => {
   });
 });
 
-userRouter.post('/login', async (req, res) => {
+usersRouter.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -76,11 +76,4 @@ userRouter.post('/login', async (req, res) => {
   });
 });
 
-userRouter.post('/aps', (req, res) => {
-  console.log(req);
-  res.send({
-    message: 'good',
-  });
-});
-
-module.exports = userRouter;
+module.exports = usersRouter;

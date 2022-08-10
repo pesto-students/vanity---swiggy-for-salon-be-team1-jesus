@@ -1,4 +1,6 @@
 const mysql = require('mysql2');
+const salons = require('../model/salonsModel');
+const users = require('../model/userModel');
 require('dotenv').config();
 
 const db = mysql.createConnection({
@@ -13,6 +15,18 @@ db.connect((err) => {
     throw err;
   }
   console.log('Mysql DB Connected!');
+});
+
+db.query(users, function (err, results, fields) {
+  if (err) {
+    console.log(err.message);
+  }
+});
+
+db.query(salons, function (err) {
+  if (err) {
+    console.log(err.message);
+  }
 });
 
 module.exports = db;

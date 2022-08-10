@@ -1,21 +1,17 @@
 const express = require('express');
-const cors = require('cors');
+const cor = require('./controller/corsController');
 require('dotenv').config();
 
-const userRouter = require('./routes/userRoute');
+const usersRouter = require('./routes/usersRoute');
+const salonsRouter = require('./routes/salonsRoute');
 
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: ['http://localhost:3000'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-  })
-);
+app.use(cor);
 
-app.use('/api/v1/user', userRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/salons', salonsRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT || 3001, () => {
