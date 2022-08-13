@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('../utils/database');
 const salonsRouter = express.Router();
 
-salonsRouter.post('/add', (req, res) => {
+salonsRouter.post('/data', (req, res) => {
   const name = req.body.name;
   const address = req.body.address;
   const city = req.body.city;
@@ -41,6 +41,40 @@ salonsRouter.post('/add', (req, res) => {
       });
     }
   );
+});
+
+salonsRouter.get('/list', (req, res) => {
+  console.log(req.query);
+  const rating = req.query.rating || 0;
+  const city = req.query.city;
+  const bestFor = req.query.bestFor;
+
+  let cQuery = '',
+    bQuery = '';
+  const query = `SELECT * FROM salons where rating >= ${rating}`;
+
+  if (city) {
+    cQuery = ` AND city = '${city}'`;
+  }
+  if (bestFor) {
+    bQuery = ` AND best_For IN ( '${bestFor}', 'BOTH')`;
+  }
+
+  const mQuery = query + cQuery + bQuery + ';';
+
+  db.query(mQuery, (err, result) => {
+    if (err) {
+      res.status(400).json({
+        err: err.sqlMessage,
+      });
+      return;
+    }
+
+    res.status(200).json({
+      total: result.length,
+      result,
+    });
+  });
 });
 
 module.exports = salonsRouter;

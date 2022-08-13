@@ -48,7 +48,7 @@ usersRouter.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  db.query('SELECT * FROM usersLogin WHERE email=?', email, (err, result) => {
+  db.query('SELECT * FROM users WHERE email=?', email, (err, result) => {
     if (err) {
       res.status(500).json({
         message: 'Something went wrong!',
