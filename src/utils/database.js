@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 const salons = require('../model/salonsModel');
 const users = require('../model/userModel');
-require('dotenv').config();
+//require('dotenv').config();
 
 // const db = mysql.createConnection({
 //   host: process.env.MYSQL_HOST,

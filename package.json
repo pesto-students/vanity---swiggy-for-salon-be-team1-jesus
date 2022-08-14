@@ -4,7 +4,7 @@
   "description": "Welcome to Vanity project",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "nodemon src/server.js",
     "start:dev": "nodemon --exec babel-node src/server.js",
     "start:prod": "npm run build && node dist/server.js",
     "build": "babel src/ -d dist"
@@ -28,10 +28,6 @@
     "mysql2": "^2.3.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
-    "@babel/core": "^7.18.10",
-    "@babel/node": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
     "eslint": "^8.21.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.5.0",
@@ -39,8 +35,5 @@
     "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1"
-  },
-  "engines": {
-    "node": "14.x"
   }
 }
