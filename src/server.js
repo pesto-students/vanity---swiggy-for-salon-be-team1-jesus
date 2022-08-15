@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const usersRouter = require('./routes/usersRoute');
 const salonsRouter = require('./routes/salonsRoute');
+const salonServicesRouter = require('./routes/salonServicesRoute');
 
 const app = express();
 
@@ -12,12 +13,13 @@ app.use(cor);
 
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: 'Backed is up and running',
+    message: 'Backend is up and running.',
   });
 });
 
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/salons', salonsRouter);
+app.use('/api/v1/salon/services', salonServicesRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
