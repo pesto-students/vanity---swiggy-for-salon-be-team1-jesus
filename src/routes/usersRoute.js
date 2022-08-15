@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../utils/database');
 const usersRouter = express.Router();
 const bcrypt = require('bcrypt');
+const vanityIdgenerator = require('../utils/vanityIdgenerator');
 
 const saltRounds = 10;
 
@@ -15,7 +16,7 @@ usersRouter.post('/signup', (req, res) => {
   const budget = req.body.budget || 0;
 
   const rating = req.body.rating || 0;
-  const vanityid = 'USR-' + Math.random().toString(36);
+  const vanityid = vanityIdgenerator('USR');
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {

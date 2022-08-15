@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../utils/database');
+const vanityIdgenerator = require('../utils/vanityIdgenerator');
 const salonsRouter = express.Router();
 
 salonsRouter.post('/data', (req, res) => {
@@ -12,7 +13,7 @@ salonsRouter.post('/data', (req, res) => {
   const rating = req.body.rating;
   const bestFor = req.body.bestFor;
 
-  const vanityid = 'USR-' + Math.random().toString(36);
+  const vanityid = vanityIdgenerator('SAL');
 
   db.query(
     'INSERT into salons(vanityid, name, address, city, owner_name, owner_quote, manpower, rating, best_for) VALUES(?,?,?,?,?,?,?,?,?)',

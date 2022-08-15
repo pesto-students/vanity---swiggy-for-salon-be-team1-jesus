@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const salonServices = require('../model/salonServicesModel');
 const salons = require('../model/salonsModel');
 const users = require('../model/userModel');
 
@@ -10,13 +11,6 @@ const db = mysql.createConnection({
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
 });
-
-// const db = mysql.createConnection({
-//   host: 'remotemysql.com',
-//   user: 'u2OZWuFU4K',
-//   password: 'aJedyc8vcY',
-//   database: 'u2OZWuFU4K',
-// });
 
 db.connect((err) => {
   if (err) {
@@ -33,6 +27,12 @@ db.query(users, function (err, results, fields) {
 });
 
 db.query(salons, function (err) {
+  if (err) {
+    console.log(err.message);
+  }
+});
+
+db.query(salonServices, function (err) {
   if (err) {
     console.log(err.message);
   }
