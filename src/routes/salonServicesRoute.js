@@ -11,7 +11,7 @@ salonServicesRouter.post('/add', (req, res) => {
   console.log(salonId, service, subService, price);
 
   db.query(
-    'INSERT INTO services(salonid, service, subservice, price) VALUES (?,?,?,?)',
+    'INSERT INTO services(salonid, service, subservice, price) VALUES (?,?,?,?);',
     (err, result) => {
       if (err) {
         res.status(500).json({
