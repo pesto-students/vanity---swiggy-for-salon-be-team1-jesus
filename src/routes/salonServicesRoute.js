@@ -27,4 +27,33 @@ salonServicesRouter.post('/add', (req, res) => {
   );
 });
 
+salonServicesRouter.get('/', (req, res) => {
+  const salonId = req.query.salonid;
+
+  db.query(
+    'SELECT * FROM services WHERE salonid = ?;',
+    [salonId],
+    (err, result) => {
+      if (err) {
+        res.status(500).json({
+          message: 'Something went wrong!',
+          err,
+        });
+        return;
+      }
+
+      if (result.length > 0) {
+        res.status(200).json({
+          total: result.length,
+          result,
+        });
+      } else {
+        res.status(400).json({
+          message: 'No services found',
+        });
+      }
+    }
+  );
+});
+
 module.exports = salonServicesRouter;
