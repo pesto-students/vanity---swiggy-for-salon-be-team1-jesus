@@ -13,7 +13,6 @@ usersRouter.post('/signup', (req, res) => {
   const password = req.body.password;
   const city = req.body.city;
   const gender = req.body.gender || 'Not Mentioned';
-  const budget = req.body.budget || 0;
 
   const rating = req.body.rating || 0;
   const vanityid = vanityIdgenerator('USR');
@@ -26,8 +25,8 @@ usersRouter.post('/signup', (req, res) => {
     }
 
     db.query(
-      'INSERT into users(vanityid, name, email, phone, password, city, Gender, budget, rating) VALUES(?,?,?,?,?,?,?,?,?)',
-      [vanityid, name, email, phone, hash, city, gender, budget, rating],
+      'INSERT into users(vanityid, name, email, phone, password, city, Gender, rating) VALUES(?,?,?,?,?,?,?,?)',
+      [vanityid, name, email, phone, hash, city, gender, rating],
       (err, result) => {
         if (err) {
           res.status(400).json({
@@ -54,6 +53,7 @@ usersRouter.post('/login', async (req, res) => {
       res.status(500).json({
         message: 'Something went wrong!',
       });
+      return;
     }
 
     if (result.length > 0) {
@@ -85,6 +85,7 @@ usersRouter.get('/data', async (req, res) => {
       res.status(500).json({
         message: 'Something went wrong!',
       });
+      return;
     }
 
     if (result.length > 0) {

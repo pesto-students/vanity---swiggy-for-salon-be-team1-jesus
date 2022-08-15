@@ -6,9 +6,8 @@ const users = `create table if not exists users(
     phone varchar(10) unique, 
     password varchar(255) not null, 
     city varchar(50) not null, 
-    Gender varchar(20) default 'Not Mentioned', 
-    budget int default 0, 
-    rating int default 0 
+    Gender varchar(20) default 'Not Mentioned',  
+    rating float default 0 
 )`;
 
 module.exports = users;
