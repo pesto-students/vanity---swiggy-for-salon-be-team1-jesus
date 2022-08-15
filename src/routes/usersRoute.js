@@ -76,4 +76,26 @@ usersRouter.post('/login', async (req, res) => {
   });
 });
 
+usersRouter.get('/data', async (req, res) => {
+  const email = req.query.email;
+
+  db.query('SELECT * FROM users WHERE email=?', email, (err, result) => {
+    if (err) {
+      res.status(500).json({
+        message: 'Something went wrong!',
+      });
+    }
+
+    if (result.length > 0) {
+      res.status(200).json({
+        result,
+      });
+    } else {
+      res.status(400).json({
+        message: 'User doesnt exists!',
+      });
+    }
+  });
+});
+
 module.exports = usersRouter;
