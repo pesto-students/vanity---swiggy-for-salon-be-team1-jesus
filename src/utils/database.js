@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const reviews = require('../model/reviewsModel');
 const salonServices = require('../model/salonServicesModel');
 const salons = require('../model/salonsModel');
 const users = require('../model/userModel');
@@ -33,6 +34,12 @@ db.query(salons, function (err) {
 });
 
 db.query(salonServices, function (err) {
+  if (err) {
+    console.log(err.message);
+  }
+});
+
+db.query(reviews, function (err) {
   if (err) {
     console.log(err.message);
   }

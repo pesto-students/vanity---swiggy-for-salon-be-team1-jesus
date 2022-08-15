@@ -44,7 +44,7 @@ usersRouter.post('/signup', (req, res) => {
   });
 });
 
-usersRouter.post('/login', async (req, res) => {
+usersRouter.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -77,7 +77,7 @@ usersRouter.post('/login', async (req, res) => {
   });
 });
 
-usersRouter.get('/data', async (req, res) => {
+usersRouter.get('/data', (req, res) => {
   const email = req.query.email;
 
   db.query('SELECT * FROM users WHERE email=?', email, (err, result) => {

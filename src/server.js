@@ -5,6 +5,7 @@ require('dotenv').config();
 const usersRouter = require('./routes/usersRoute');
 const salonsRouter = require('./routes/salonsRoute');
 const salonServicesRouter = require('./routes/salonServicesRoute');
+const reviewsRouter = require('./routes/reviewsRouter');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/salons', salonsRouter);
 app.use('/api/v1/salon/services', salonServicesRouter);
+app.use('/api/v1/reviews', reviewsRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
