@@ -10,6 +10,12 @@ module.exports = ({ config, database, logger, repository, output }) => {
     next();
   });
 
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      message: 'Backend is up and running',
+    });
+  });
+
   app.use(
     '/api/v1/user',
     userRouter({ logger, database, repository, output, config })
