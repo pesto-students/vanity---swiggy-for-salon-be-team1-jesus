@@ -1,4 +1,8 @@
 # .github/workflows/custom-deploy.yml
+on:
+  push:
+    branches: ['test']
+
 jobs:
   custom-deploy:
     runs-on: ubuntu-latest
