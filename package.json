@@ -4,8 +4,9 @@
   "description": "Welcome to Vanity project",
   "main": "src/server.js",
   "scripts": {
-    "start": "cross-env NODE_PATH=. nodemon index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "cross-env NODE_PATH=. nodemon index.js",
+    "test": "nodemon index.js"
   },
   "repository": {
     "type": "git",
