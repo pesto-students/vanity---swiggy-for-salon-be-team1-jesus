@@ -1,7 +1,7 @@
 # .github/workflows/custom-deploy.yml
 on:
   push:
-    branches: ['test']
+    branches: [' ']
 
 jobs:
   custom-deploy:

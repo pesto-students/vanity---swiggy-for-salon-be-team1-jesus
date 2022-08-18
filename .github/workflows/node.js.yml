@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [' ']
+    branches: ['test']
 
 jobs:
   build:
@@ -22,5 +22,5 @@ jobs:
         with:
           args: deploy --dir=build --prod
           heroku_api_key: ${{ secrets.Heroku_secret }}
-          heroku_app_name: 'vanity-swiggy-for-salons-be'
-          heroku_email: 'axcal16@gmail.com'
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
