@@ -1,0 +1,29 @@
+{
+  "environment": "dev",
+  "app": "Vanity",
+  "server": {
+    "port": 8000
+  },
+  "logger": {
+    "level": "debug"
+  },
+  "mysqlConfig": {
+    "database": "u2OZWuFU4K",
+    "username": "u2OZWuFU4K",
+    "password": "aJedyc8vcY",
+    "options": {
+      "host": "remotemysql.com",
+      "port": 3306,
+      "dialect": "mysql",
+      "logging": true,
+      "pool": {
+        "min": 1,
+        "max": 10,
+        "idle": 30000
+      },
+      "define": {
+        "timestamps": false
+      }
+    }
+  }
+}
