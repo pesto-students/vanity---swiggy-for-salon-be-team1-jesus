@@ -1,6 +1,5 @@
 const express = require('express');
-const cor = require('../controller/corsController');
-require('dotenv').config();
+// const cor = require('../controller/corsController');
 
 // const usersRouter = require('./routes/usersRoute');
 // const salonsRouter = require('./routes/salonsRoute');
@@ -34,7 +33,7 @@ module.exports = ({ config, router, logger }) => {
   app.disable('x-powered-by');
   app.use(router);
   app.use(express.json());
-  app.use(cor);
+  // app.use(cor);
 
   return {
     app,
