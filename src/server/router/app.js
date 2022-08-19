@@ -3,7 +3,7 @@ const ExpressStatusMonitor = require('express-status-monitor');
 const CookieParser = require('cookie-parser');
 const Compression = require('compression');
 const ExpressPromBundle = require('express-prom-bundle');
-const HealthCheck = require('../../assembler/HealthCheck');
+const HealthCheck = require('../../assembler/healthCheck');
 
 const cors = require('cors');
 const { BAD_GATEWAY, OK } = require('http-status');
