@@ -40,7 +40,7 @@ module.exports = ({ config, router, logger }) => {
     app,
     start: () =>
       new Promise((resolve) => {
-        const http = app.listen(config.server.port, () => {
+        const http = app.listen(config.server.port || 3001, () => {
           const { port } = http.address();
           console.log('I am Groot');
           console.log(`[p ${process.pid}] Listening at port  ${port}`);
