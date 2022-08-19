@@ -4,7 +4,7 @@
   "description": "Welcome to Vanity project",
   "main": "src/server.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_PATH=. node index.js",
     "dev": "cross-env NODE_PATH=. nodemon index.js",
     "test": "nodemon index.js"
   },

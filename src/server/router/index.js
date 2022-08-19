@@ -4,16 +4,10 @@ const { partialRight } = require('ramda');
 const userRouter = require('./user');
 
 module.exports = ({ config, database, logger, repository, output }) => {
-  app = App({ config, repository });
+  const app = App({ config, repository });
 
   app.use(async function authContext(req, res, next) {
     next();
-  });
-
-  app.get('/', (req, res) => {
-    res.status(200).json({
-      message: 'Backend is up and running',
-    });
   });
 
   app.use(

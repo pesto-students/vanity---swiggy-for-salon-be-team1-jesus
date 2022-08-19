@@ -21,6 +21,15 @@ module.exports = ({ database }) => {
     return toDomain(new_user[0]);
   };
 
+  const getOne = async (user, t) => {
+    const new_user = await database.models.user.findOne({
+      where: { FirstName: user.FirstName },
+      transaction: t,
+    });
+
+    return toDomain(new_user);
+  };
+
   const toDomain = ({ dataValues }) => {
     return new User({
       uid: dataValues.uid,
@@ -44,5 +53,6 @@ module.exports = ({ database }) => {
   return {
     add,
     getAll,
+    getOne,
   };
 };
