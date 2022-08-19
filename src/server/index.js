@@ -43,7 +43,7 @@ module.exports = ({ config, router, logger }) => {
         const http = app.listen(config.server.port, () => {
           const { port } = http.address();
           console.log('I am Groot');
-          console.log(`[p ${process.pid}] Listening at port ${port}`);
+          console.log(`[p ${process.pid}] Listening at port  ${port}`);
           resolve(http);
         });
       }),
