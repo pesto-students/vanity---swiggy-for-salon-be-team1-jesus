@@ -53,7 +53,7 @@ module.exports = (config, logger) => {
         db.models[model.name] = model;
 
         if (!model) {
-          throw new Error(`Failed to import model ${filename}`);
+          throw new Error(`Failed to import  model ${filename}`);
         } else {
           sequelize.sync();
         }
