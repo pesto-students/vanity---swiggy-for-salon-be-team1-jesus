@@ -1,7 +1,7 @@
 # .github/workflows/custom-deploy.yml
 on:
   push:
-    branches: [' ']
+    branches: ['test']
 
 jobs:
   custom-deploy:
@@ -13,17 +13,17 @@ jobs:
           fetch-depth: 0
       - name: Heroku login credentials
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_SECRET }}
+          HEROKU_SECRET: ${{ secrets.HEROKU_SECRET }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
           cat > ~/.netrc <<EOF
             machine api.heroku.com
               login $HEROKU_EMAIL
-              password $HEROKU_API_KEY
+              password $HEROKU_SECRET
             machine git.heroku.com
               login $HEROKU_EMAIL
-              password $HEROKU_API_KEY
+              password $HEROKU_SECRET
           EOF
       - name: Add Heroku remote
         run: heroku git:remote --app $HEROKU_APP_NAME

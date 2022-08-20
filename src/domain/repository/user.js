@@ -1,4 +1,5 @@
 const User = require('../../domain/models/user');
+const bcrypt = require('bcrypt');
 
 module.exports = ({ database }) => {
   const add = async (user, t) => {
@@ -18,35 +19,45 @@ module.exports = ({ database }) => {
       transaction: t,
     });
 
-    return toDomain(new_user[0]);
+    let users = new_user.map((k) => toDomain(k));
+    return users;
   };
 
   const getOne = async (user, t) => {
     const new_user = await database.models.user.findOne({
-      where: { FirstName: user.FirstName },
+      where: { Email: user.Email },
       transaction: t,
     });
 
+    const { dataValues } = new_user;
+    let bool = bcrypt.compareSync(user.Password, dataValues.Password);
+    if (!bool) return toDomain(null);
     return toDomain(new_user);
   };
 
   const toDomain = ({ dataValues }) => {
     return new User({
-      uid: dataValues.uid,
-      LastName: dataValues.LastName,
-      FirstName: dataValues.FirstName,
-      Address: dataValues.Address,
+      UserId: dataValues.UserId,
+      Name: dataValues.Name,
+      Email: dataValues.Email,
+      Password: dataValues.Password,
+      Phone: dataValues.Phone,
       City: dataValues.City,
+      Gender: dataValues.Gender,
+      Rating: dataValues.Rating,
     });
   };
 
   const toDatabase = (entity) => {
     return {
-      uid: entity.uid,
-      LastName: entity.LastName,
-      FirstName: entity.FirstName,
-      Address: entity.Address,
+      UserId: entity.UserId,
+      Name: entity.Name,
+      Email: entity.Email,
+      Password: entity.Password,
+      Phone: entity.Phone,
       City: entity.City,
+      Gender: entity.Gender,
+      Rating: entity.Rating,
     };
   };
 

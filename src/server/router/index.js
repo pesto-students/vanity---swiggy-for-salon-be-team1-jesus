@@ -14,6 +14,10 @@ module.exports = ({ config, database, logger, repository, output }) => {
     '/api/v1/user',
     userRouter({ logger, database, repository, output, config })
   );
+  app.use(
+    '/api/v1/salon',
+    userRouter({ logger, database, repository, output, config })
+  );
 
   app.use(function notFound(req, res, next) {
     res.status(404).send();

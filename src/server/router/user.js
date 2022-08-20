@@ -17,21 +17,16 @@ module.exports = ({ logger, database, repository, output }) => {
         page: req.query.page || 1,
         size: req.query.size || 10,
       };
-      const { user, pagination } = await UserGetAll(
-        payload,
-        req.context,
-        t,
-        repository
-      );
+      const user = await UserGetAll(payload, req.context, t, repository);
       await t.commit();
-      res.status(Status.OK).json(output.success(user, pagination));
+      res.status(Status.OK).json(output.success(user));
     } catch (e) {
       await t.rollback();
       next(e);
     }
   });
 
-  router.post('/', async (req, res, next) => {
+  router.post('/signup', async (req, res, next) => {
     const t = await database.transaction();
     try {
       const payload = { ...req.body };
