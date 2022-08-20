@@ -8,7 +8,6 @@ module.exports = ({ config, router, logger }) => {
   app.disable('x-powered-by');
   app.use(router);
   app.use(express.json());
-  // app.use(cor);
 
   return {
     app,

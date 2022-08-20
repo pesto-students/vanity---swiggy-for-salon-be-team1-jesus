@@ -2,6 +2,7 @@ const App = require('./app');
 const errorHandler = require('./error');
 const { partialRight } = require('ramda');
 const userRouter = require('./user');
+const salonRouter = require('./salon');
 
 module.exports = ({ config, database, logger, repository, output }) => {
   const app = App({ config, repository });
@@ -14,9 +15,10 @@ module.exports = ({ config, database, logger, repository, output }) => {
     '/api/v1/user',
     userRouter({ logger, database, repository, output, config })
   );
+
   app.use(
     '/api/v1/salon',
-    userRouter({ logger, database, repository, output, config })
+    salonRouter({ logger, database, repository, output, config })
   );
 
   app.use(function notFound(req, res, next) {

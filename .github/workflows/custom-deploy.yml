@@ -1,8 +1,8 @@
 # .github/workflows/custom-deploy.yml
 name: github actions pipeline
-on:
-  push:
-    branches: []
+# on:
+#   push:
+#     branches: [' ']
 
 jobs:
   custom-deploy:
@@ -32,4 +32,4 @@ jobs:
       - name: Remote repository
         run: git remote -v
       - name: Push to Heroku
-        run: git push heroku HEAD:main --force
+        run: git push heroku master #git push heroku HEAD:master --force

@@ -46,7 +46,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
       },
       Rating: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
     },

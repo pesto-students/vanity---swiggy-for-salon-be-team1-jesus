@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { config } = require('dotenv');
 const Sequelize = require('sequelize');
 const SequelizeAuto = require('sequelize-auto');
 const { Transaction } = require('sequelize');
@@ -12,9 +13,9 @@ module.exports = (config, logger) => {
   }
 
   const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
+    process.env.MYSQL_DATABASE,
+    process.env.MYSQL_USER,
+    process.env.MYSQL_PASSWORD,
     config.options
   );
 
