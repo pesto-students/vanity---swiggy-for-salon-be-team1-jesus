@@ -31,4 +31,6 @@ jobs:
       - name: Remote repository
         run: git remote -v
       - name: Push to Heroku
-        run: git push heroku master --force
+        run: |
+          git checkout -b masterbranch
+          git push heroku masterbranch
