@@ -32,10 +32,5 @@ jobs:
         run: git remote -v
       - name: Add
         run: git add .
-      - name: Commit
-        run: |
-          git config --global user.email "Vivekhande16sep@gmail.com"
-          git config --global user.name "VivekHande16"
-          git commit -m "Added all files"
       - name: Push to Heroku
         run: git push heroku master
