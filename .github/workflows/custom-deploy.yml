@@ -2,7 +2,7 @@
 name: github actions pipeline
 on:
   push:
-    branches: ['test']
+    branches: []
 
 jobs:
   custom-deploy:
