@@ -30,5 +30,9 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       - name: Remote repository
         run: git remote -v
+      - name: Add
+        run: git add .
+      - name: Commit
+        run: git commit -m "Added all files"
       - name: Push to Heroku
-        run: git push heroku main
+        run: git push heroku master
