@@ -1,4 +1,5 @@
 # .github/workflows/custom-deploy.yml
+name: github actions pipeline
 on:
   push:
     branches: ['test']
