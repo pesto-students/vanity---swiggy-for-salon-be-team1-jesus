@@ -1,14 +1,14 @@
 const { attributes } = require('structure');
 
 const User = attributes({
-  UserId: { type: String, required: true },
-  Name: { type: String, required: true },
-  Email: { type: String, required: true },
-  Phone: { type: String, required: true },
-  Password: { type: String, required: true },
-  City: { type: String },
-  Gender: { type: String },
-  Rating: { type: Number },
+  userId: { type: String, required: true, exactLength: 40 },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  password: { type: String, required: true },
+  city: { type: String },
+  gender: { type: String },
+  rating: { type: Number },
 })(class User {});
 
 module.exports = User;

@@ -65,5 +65,11 @@ module.exports = (config, logger) => {
     return;
   });
 
+  Object.keys(sequelize.models).forEach((key) => {
+    if ('associate' in sequelize.models[key]) {
+      sequelize.models[key].associate(sequelize.models);
+    }
+  });
+
   return db;
 };

@@ -2,16 +2,16 @@ module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define(
     'user',
     {
-      UserId: {
+      userId: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
       },
-      Name: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Email: {
+      email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
           },
         },
       },
-      Phone: {
+      phone: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
@@ -33,19 +33,19 @@ module.exports = function (sequelize, DataTypes) {
           },
         },
       },
-      Password: {
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      City: {
+      city: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      Gender: {
+      gender: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      Rating: {
+      rating: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },

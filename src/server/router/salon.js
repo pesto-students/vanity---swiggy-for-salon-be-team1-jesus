@@ -3,7 +3,7 @@ const Status = require('http-status');
 
 const salonCreate = require('../../command/SalonCreate');
 const salonGetAll = require('../../assembler/SalonGetAll');
-const salonGetFew = require('../../assembler/SalonGetFew');
+const salonGetFew = require('../../assembler/SalonGet');
 
 module.exports = ({ logger, database, repository, output }) => {
   const router = Router({ mergeParams: true });

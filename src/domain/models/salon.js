@@ -1,18 +1,19 @@
 const { attributes } = require('structure');
 
 const Salon = attributes({
-  SalonId: { type: String, required: true },
-  Name: { type: String, required: true },
-  Address: { type: String, required: true },
-  City: { type: String, required: true },
-  Pincode: { type: Number, required: true },
-  State: { type: String, required: true },
-  OwnerName: { type: String, required: true },
-  OwnerQuote: { type: String, required: true },
-  ManPower: { type: Number, required: true },
-  Rating: { type: Number, required: true },
-  BestFor: { type: String, required: true },
-  Contact: { type: String, required: true },
+  salonId: { type: String, required: true, exactLength: 40 },
+  name: { type: String, required: true },
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  pincode: { type: Number, required: true },
+  state: { type: String, required: true },
+  ownerName: { type: String, required: true },
+  ownerQuote: { type: String, required: true },
+  manPower: { type: Number, required: true },
+  rating: { type: Number, required: true },
+  bestFor: { type: String, required: true },
+  avgCost: { type: Number, required: true },
+  contact: { type: String, required: true },
 })(class Salon {});
 
 module.exports = Salon;

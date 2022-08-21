@@ -7,6 +7,11 @@ name: github actions pipeline
 jobs:
   custom-deploy:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3

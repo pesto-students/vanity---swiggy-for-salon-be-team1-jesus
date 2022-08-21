@@ -5,17 +5,15 @@ module.exports = ({ database }) => {
   const add = async (user, t) => {
     const data = toDatabase(user);
 
-    // inset into table user (1,2,3,4) raw query
     const new_user = await database.models.user.create(data, {
       transaction: t,
     });
 
-    return toDomain(new_user); // convert / serailize data a/t user friendlay
+    return toDomain(new_user);
   };
 
   const getAll = async (user, t) => {
     const new_user = await database.models.user.findAll({
-      //   where: constraint,
       transaction: t,
     });
 
@@ -23,47 +21,47 @@ module.exports = ({ database }) => {
     return users;
   };
 
-  const getOne = async (user, t) => {
+  const login = async (data, t) => {
     const new_user = await database.models.user.findOne({
-      where: { Email: user.Email },
+      where: { email: data.email },
       transaction: t,
     });
 
     const { dataValues } = new_user;
-    let bool = bcrypt.compareSync(user.Password, dataValues.Password);
-    if (!bool) return toDomain(null);
+    let bool = bcrypt.compareSync(data.password, dataValues.password);
+    if (!bool) throw new Error('Password is wrong!');
     return toDomain(new_user);
   };
 
   const toDomain = ({ dataValues }) => {
     return new User({
-      UserId: dataValues.UserId,
-      Name: dataValues.Name,
-      Email: dataValues.Email,
-      Password: dataValues.Password,
-      Phone: dataValues.Phone,
-      City: dataValues.City,
-      Gender: dataValues.Gender,
-      Rating: dataValues.Rating,
+      userId: dataValues.userId,
+      name: dataValues.name,
+      email: dataValues.email,
+      password: dataValues.password,
+      phone: dataValues.phone,
+      city: dataValues.city,
+      gender: dataValues.gender,
+      rating: dataValues.rating,
     });
   };
 
   const toDatabase = (entity) => {
     return {
-      UserId: entity.UserId,
-      Name: entity.Name,
-      Email: entity.Email,
-      Password: entity.Password,
-      Phone: entity.Phone,
-      City: entity.City,
-      Gender: entity.Gender,
-      Rating: entity.Rating,
+      userId: entity.userId,
+      name: entity.name,
+      email: entity.email,
+      password: entity.password,
+      phone: entity.phone,
+      city: entity.city,
+      gender: entity.gender,
+      rating: entity.rating,
     };
   };
 
   return {
     add,
     getAll,
-    getOne,
+    login,
   };
 };

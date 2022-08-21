@@ -1,14 +1,9 @@
-const UserRepository = require('./user');
 const SalonRepository = require('./salon');
-
-module.exports = ({ database, logger }) => {
-  return {
-    userRepository: UserRepository({ database }),
-  };
-};
+const UserRepository = require('./user');
 
 module.exports = ({ database, logger }) => {
   return {
     salonRepository: SalonRepository({ database }),
+    userRepository: UserRepository({ database }),
   };
 };

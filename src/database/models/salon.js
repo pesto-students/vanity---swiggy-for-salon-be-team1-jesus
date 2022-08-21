@@ -2,24 +2,24 @@ module.exports = function (sequelize, DataTypes) {
   const Salon = sequelize.define(
     'salon',
     {
-      SalonId: {
+      salonId: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
       },
-      Name: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Address: {
+      address: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      City: {
+      city: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Pincode: {
+      pincode: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
@@ -30,31 +30,35 @@ module.exports = function (sequelize, DataTypes) {
           },
         },
       },
-      State: {
+      state: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      OwnerName: {
+      ownerName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      OwnerQuote: {
+      ownerQuote: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      ManPower: {
+      manPower: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      Rating: {
+      rating: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      BestFor: {
+      bestFor: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Contact: {
+      avgCost: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      contact: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,

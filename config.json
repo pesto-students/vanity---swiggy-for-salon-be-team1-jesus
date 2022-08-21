@@ -7,6 +7,7 @@
   "logger": {
     "level": "debug"
   },
+  "saltRound": 12,
   "mysqlConfig": {
     "options": {
       "host": "remotemysql.com",

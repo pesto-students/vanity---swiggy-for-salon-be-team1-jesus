@@ -10,7 +10,7 @@ module.exports = ({ database }) => {
     return toDomain(new_salon);
   };
 
-  const getAll = async (salon, t) => {
+  const getAll = async (query, t) => {
     const new_salon = await database.models.salon.findAll({
       transaction: t,
     });
@@ -19,9 +19,11 @@ module.exports = ({ database }) => {
     return salons;
   };
 
-  const getFew = async (salon, t) => {
+  const salonGet = async (query, t) => {
+    const serchByKey = Object.keys(query);
+    const serchByValue = Object.values(query);
     const new_salon = await database.models.salon.findAll({
-      where: { City: salon.City },
+      where: { [serchByKey]: [serchByValue] },
       transaction: t,
     });
 
@@ -31,41 +33,43 @@ module.exports = ({ database }) => {
 
   const toDomain = ({ dataValues }) => {
     return new Salon({
-      SalonId: dataValues.SalonId,
-      Name: dataValues.Name,
-      Address: dataValues.Address,
-      City: dataValues.City,
-      Pincode: dataValues.Pincode,
-      State: dataValues.State,
-      OwnerName: dataValues.OwnerName,
-      OwnerQuote: dataValues.OwnerQuote,
-      ManPower: dataValues.ManPower,
-      Rating: dataValues.Rating,
-      BestFor: dataValues.BestFor,
-      Contact: dataValues.Contact,
+      salonId: dataValues.salonId,
+      name: dataValues.name,
+      address: dataValues.address,
+      city: dataValues.city,
+      pincode: dataValues.pincode,
+      state: dataValues.state,
+      ownerName: dataValues.ownerName,
+      ownerQuote: dataValues.ownerQuote,
+      manPower: dataValues.manPower,
+      rating: dataValues.rating,
+      bestFor: dataValues.bestFor,
+      avgCost: dataValues.avgCost,
+      contact: dataValues.contact,
     });
   };
 
   const toDatabase = (entity) => {
     return {
-      SalonId: entity.SalonId,
-      Name: entity.Name,
-      Address: entity.Address,
-      City: entity.City,
-      Pincode: entity.Pincode,
-      State: entity.State,
-      OwnerName: entity.OwnerName,
-      OwnerQuote: entity.OwnerQuote,
-      ManPower: entity.ManPower,
-      Rating: entity.Rating,
-      BestFor: entity.BestFor,
-      Contact: entity.Contact,
+      salonId: entity.salonId,
+      name: entity.name,
+      address: entity.address,
+      city: entity.city,
+      pincode: entity.pincode,
+      state: entity.state,
+      ownerName: entity.ownerName,
+      ownerQuote: entity.ownerQuote,
+      manPower: entity.manPower,
+      rating: entity.rating,
+      bestFor: entity.bestFor,
+      avgCost: entity.avgCost,
+      contact: entity.contact,
     };
   };
 
   return {
     add,
     getAll,
-    getFew,
+    salonGet,
   };
 };
