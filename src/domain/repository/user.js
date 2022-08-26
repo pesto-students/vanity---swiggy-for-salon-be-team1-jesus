@@ -27,6 +27,11 @@ module.exports = ({ database }) => {
       transaction: t,
     });
 
+    const saltRounds = config.saltRounds;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(payload.password, salt);
+    payload.password = hash;
+
     const { dataValues } = new_user;
     let bool = bcrypt.compareSync(data.password, dataValues.password);
     if (!bool) throw new Error('Password is wrong!');
