@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: ['feature-latest']
+    branches: ['feature-staffOnboarding']
 
 jobs:
   build:
