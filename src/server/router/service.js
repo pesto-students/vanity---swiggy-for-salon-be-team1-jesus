@@ -2,7 +2,7 @@ const { Router } = require('express');
 const Status = require('http-status');
 
 const serviceCreate = require('../../command/ServiceCreate');
-const serviceGetAll = require('../../assembler/ServiceGetAll');
+const serviceGetAll = require('../../assembler/serviceGetAll');
 
 module.exports = ({ logger, database, repository, output }) => {
   const router = Router({ mergeParams: true });
