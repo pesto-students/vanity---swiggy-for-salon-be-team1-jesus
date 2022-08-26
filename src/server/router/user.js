@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const Status = require('http-status');
+const { createToken } = require('../../utils/auth');
 
 const UserCreate = require('../../command/UserCreate');
 const UserLogin = require('../../command/UserLogin');
@@ -19,9 +20,11 @@ module.exports = ({ logger, database, repository, output }) => {
       };
       const user = await UserGetAll(payload, req.context, t, repository);
       await t.commit();
+      logger.info('All users data retrived successfully.');
       res.status(Status.OK).json(output.success(user));
     } catch (e) {
       await t.rollback();
+      logger.error('Failed to retrive users data.');
       next(e);
     }
   });
@@ -32,9 +35,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const user = await UserCreate(payload, req.context, t, repository);
       await t.commit();
+      logger.info(payload.name, 'New User added.');
       res.status(Status.OK).json(output.success(user));
     } catch (e) {
       await t.rollback();
+      logger.error(payload.name, 'Failed to add new user.');
       next(e);
     }
   });
@@ -45,10 +50,19 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const user = await UserLogin(payload, req.context, t, repository);
       await t.commit();
+      logger.info(payload.email, 'User successfully logged in.');
+
+      const accessToken = createToken(user);
+      res.cookie('access-token', accessToken, {
+        maxAge: 60 * 60 * 24 * 1000,
+      });
+
       res.status(Status.OK).json(output.success(user));
     } catch (e) {
       await t.rollback();
+      logger.error(payload.email, 'User is not able to login.');
       next(e);
+      res.status(BAD_GATEWAY).json(output.fail(user));
     }
   });
 

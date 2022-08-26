@@ -10,6 +10,7 @@ const Salon = attributes({
   ownerName: { type: String, required: true },
   ownerQuote: { type: String, required: true },
   manPower: { type: Number, required: true },
+  services: { type: String, required: true },
   rating: { type: Number, required: true },
   bestFor: { type: String, required: true },
   avgCost: { type: Number, required: true },

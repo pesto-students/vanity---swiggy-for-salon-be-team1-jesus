@@ -3,6 +3,9 @@ const errorHandler = require('./error');
 const { partialRight } = require('ramda');
 const userRouter = require('./user');
 const salonRouter = require('./salon');
+const salonServiceRouter = require('./service');
+const salonReviewRouter = require('./review');
+const salonStaffRouter = require('./staff');
 
 module.exports = ({ config, database, logger, repository, output }) => {
   const app = App({ config, repository });
@@ -19,6 +22,21 @@ module.exports = ({ config, database, logger, repository, output }) => {
   app.use(
     '/api/v1/salon',
     salonRouter({ logger, database, repository, output, config })
+  );
+
+  app.use(
+    '/api/v1/salon/service',
+    salonServiceRouter({ logger, database, repository, output, config })
+  );
+
+  app.use(
+    '/api/v1/salon/review',
+    salonReviewRouter({ logger, database, repository, output, config })
+  );
+
+  app.use(
+    '/api/v1/salon/staff',
+    salonStaffRouter({ logger, database, repository, output, config })
   );
 
   app.use(function notFound(req, res, next) {

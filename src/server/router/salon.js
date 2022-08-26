@@ -14,9 +14,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const salon = await salonCreate(payload, req.context, t, repository);
       await t.commit();
+      logger.info(payload.name, 'Salons data added successfully.');
       res.status(Status.OK).json(output.success(salon));
     } catch (e) {
       await t.rollback();
+      logger.error('Failed to add Salons data.');
       next(e);
     }
   });
@@ -32,9 +34,16 @@ module.exports = ({ logger, database, repository, output }) => {
       };
       const salon = await salonGetAll(payload, req.context, t, repository);
       await t.commit();
-      res.status(Status.OK).json(output.success(salon));
+      if (salon.length > 0) {
+        logger.info('Salons data retrived successfully.');
+        res.status(Status.OK).json(output.success(salon));
+      } else {
+        logger.info('Failed to get Salons data.');
+        res.status(Status.BAD_REQUEST).json(output.fail(salon));
+      }
     } catch (e) {
       await t.rollback();
+      logger.error('Something went wrong');
       next(e);
     }
   });
@@ -45,9 +54,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.query };
       const salon = await salonGetFew(payload, req.context, t, repository);
       await t.commit();
+      logger.info('Salons data retrived successfully.');
       res.status(Status.OK).json(output.success(salon));
     } catch (e) {
       await t.rollback();
+      logger.error('Failed to get Salons data.');
       next(e);
     }
   });
