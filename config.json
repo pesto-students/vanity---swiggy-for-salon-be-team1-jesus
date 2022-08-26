@@ -1,0 +1,27 @@
+{
+  "environment": "dev",
+  "app": "Vanity",
+  "server": {
+    "port": 8000
+  },
+  "logger": {
+    "level": "debug"
+  },
+  "saltRound": 12,
+  "mysqlConfig": {
+    "options": {
+      "host": "remotemysql.com",
+      "port": 3306,
+      "dialect": "mysql",
+      "logging": true,
+      "pool": {
+        "min": 1,
+        "max": 10,
+        "idle": 30000
+      },
+      "define": {
+        "timestamps": false
+      }
+    }
+  }
+}

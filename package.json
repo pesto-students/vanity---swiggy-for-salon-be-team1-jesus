@@ -1,0 +1,57 @@
+{
+  "name": "vanity---swiggy-for-salon-be-team1-jesus",
+  "version": "1.0.0",
+  "description": "Welcome to Vanity project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "NODE_PATH=. node index.js",
+    "dev": "cross-env NODE_PATH=. nodemon index.js",
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pesto-students/vanity---swiggy-for-salon-be-team1-jesus.git"
+  },
+  "author": "Vivek Hande",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pesto-students/vanity---swiggy-for-salon-be-team1-jesus/issues"
+  },
+  "homepage": "https://github.com/pesto-students/vanity---swiggy-for-salon-be-team1-jesus#readme",
+  "dependencies": {
+    "awilix": "^7.0.3",
+    "awilix-express": "^7.0.0",
+    "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-prom-bundle": "^6.5.0",
+    "express-status-monitor": "^1.3.4",
+    "fs": "^0.0.1-security",
+    "http-status": "^1.5.2",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "path": "^0.12.7",
+    "ramda": "^0.28.0",
+    "sequelize": "^6.21.3",
+    "sequelize-auto": "^0.8.8",
+    "structure": "^2.0.1",
+    "uuid": "^8.3.2",
+    "winston": "^3.8.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
