@@ -1,3 +1,4 @@
+var newrelic = require('newrelic');
 const Express = require('express');
 const ExpressStatusMonitor = require('express-status-monitor');
 const CookieParser = require('cookie-parser');

@@ -6,6 +6,7 @@ const salonRouter = require('./salon');
 const salonServiceRouter = require('./service');
 const salonReviewRouter = require('./review');
 const salonStaffRouter = require('./staff');
+const salonBookRouter = require('./book');
 
 module.exports = ({ config, database, logger, repository, output }) => {
   const app = App({ config, repository });
@@ -32,6 +33,11 @@ module.exports = ({ config, database, logger, repository, output }) => {
   app.use(
     '/api/v1/salon/review',
     salonReviewRouter({ logger, database, repository, output, config })
+  );
+
+  app.use(
+    '/api/v1/salon/book',
+    salonBookRouter({ logger, database, repository, output, config })
   );
 
   app.use(

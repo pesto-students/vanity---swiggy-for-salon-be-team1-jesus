@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const Status = require('http-status');
 
-const serviceCreate = require('../../command/ServiceCreate');
-const serviceGetAll = require('../../assembler/ServiceGetAll');
+const bookingCreate = require('../../command/BookingCreate');
+const bookingGetAll = require('../../assembler/BookingGetAll');
 
 module.exports = ({ logger, database, repository, output }) => {
   const router = Router({ mergeParams: true });
@@ -11,13 +11,13 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = { ...req.body };
-      const service = await serviceCreate(payload, req.context, t, repository);
+      const booking = await bookingCreate(payload, req.context, t, repository);
       await t.commit();
-      logger.info('Salons service added successfully.');
-      res.status(Status.OK).json(output.success(service));
+      logger.info('Salon booked successfully.');
+      res.status(Status.OK).json(output.success(booking));
     } catch (e) {
+      logger.error('Failed to book salon.');
       await t.rollback();
-      logger.error('Failed to add service data.');
       next(e);
     }
   });
@@ -26,14 +26,14 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = { ...req.query };
-      const service = await serviceGetAll(payload, req.context, t, repository);
+      const booking = await bookingGetAll(payload, req.context, t, repository);
       await t.commit();
-      if (service.length > 0) {
-        logger.info('Salons service retrived successfully.');
-        res.status(Status.OK).json(output.success(service));
+      if (booking.length > 0) {
+        logger.info('Salon bookings retrived successfully.');
+        res.status(Status.OK).json(output.success(booking));
       } else {
-        logger.info('Failed to get service data.');
-        res.status(Status.BAD_REQUEST).json(output.fail(service));
+        logger.info('Failed to get salon bookings.');
+        res.status(Status.BAD_REQUEST).json(output.fail(booking));
       }
     } catch (e) {
       await t.rollback();

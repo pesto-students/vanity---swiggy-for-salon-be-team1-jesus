@@ -29,10 +29,10 @@ module.exports = ({ database }) => {
     });
 
     new_review.map(
-      (review) => (review.dataValues.salonId = salon.dataValues.name)
+      (review) => (review.dataValues.salonName = salon.dataValues.name)
     );
     new_review.map(
-      (review) => (review.dataValues.userId = review.user.dataValues.name)
+      (review) => (review.dataValues.userName = review.user.dataValues.name)
     );
 
     let reviews = new_review.map((k) => toDomain(k));
@@ -46,6 +46,8 @@ module.exports = ({ database }) => {
       rating: dataValues.rating,
       userId: dataValues.userId,
       salonId: dataValues.salonId,
+      userName: dataValues.userName,
+      salonName: dataValues.salonName,
     });
   };
 

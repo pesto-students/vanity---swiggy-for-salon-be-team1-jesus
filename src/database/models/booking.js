@@ -34,10 +34,6 @@ module.exports = function (sequelize, DataTypes) {
       paymentStatus: {
         type: DataTypes.STRING,
       },
-      staffName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     },
     {
       tableName: 'booking',
@@ -49,10 +45,13 @@ module.exports = function (sequelize, DataTypes) {
       onDelete: 'CASCADE',
       foreignKey: 'salonId',
     });
-
     Service.belongsTo(models.user, {
       onDelete: 'CASCADE',
       foreignKey: 'userId',
+    });
+    Service.belongsTo(models.staff, {
+      onDelete: 'CASCADE',
+      foreignKey: 'staffId',
     });
   };
 

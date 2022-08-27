@@ -50,19 +50,18 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const user = await UserLogin(payload, req.context, t, repository);
       await t.commit();
-      logger.info(payload.email, 'User successfully logged in.');
+      logger.info('User successfully logged in.');
 
       const accessToken = createToken(user);
       res.cookie('access-token', accessToken, {
-        maxAge: 60 * 60 * 24 * 1000,
+        maxAge: 60 * 10 * 1000,
       });
-
       res.status(Status.OK).json(output.success(user));
     } catch (e) {
       await t.rollback();
-      logger.error(payload.email, 'User is not able to login.');
+      logger.error('User is not able to login.');
       next(e);
-      res.status(BAD_GATEWAY).json(output.fail(user));
+      res.status(Status.NOT_FOUND).json(output.fail());
     }
   });
 

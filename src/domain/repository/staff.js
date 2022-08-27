@@ -12,12 +12,21 @@ module.exports = ({ database }) => {
     return toDomain(new_staff);
   };
 
-  const getAll = async (staff, t) => {
-    console.log(staff);
+  const getAll = async (query, t) => {
+    let salonId = query.salonId;
+    let role = query.role;
+
+    let condition1 = salonId ? { salonId: salonId } : null;
+    let condition2 = role ? { role: role } : null;
+
     const new_staff = await database.models.staff.findAll({
-      where: { salonId: staff.salonId },
+      where: [condition1, condition2],
       transaction: t,
     });
+
+    if (!new_staff) {
+      return new Error('Enter correct salonId');
+    }
 
     let staffs = new_staff.map((k) => toDomain(k));
     return staffs;

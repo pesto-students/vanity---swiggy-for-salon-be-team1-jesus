@@ -34,11 +34,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const staff = await StaffCreate(payload, req.context, t, repository);
       await t.commit();
-      logger.info(payload.name, 'New staff added.');
+      logger.info('New staff added.');
       res.status(Status.OK).json(output.success(staff));
     } catch (e) {
       await t.rollback();
-      logger.error(payload.name, 'Failed to add new staff.');
+      logger.error('Failed to add new staff.');
       next(e);
     }
   });
