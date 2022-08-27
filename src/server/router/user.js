@@ -33,10 +33,15 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = { ...req.body };
-      const user = await UserCreate(payload, req.context, t, repository);
-      await t.commit();
-      logger.info('New User added.');
-      res.status(Status.OK).json(output.success(user));
+      if (payload.email && payload.name && payload.phone && payload.password) {
+        const user = await UserCreate(payload, req.context, t, repository);
+        await t.commit();
+        logger.info('New User added.');
+        res.status(Status.OK).json(output.success(user));
+      } else {
+        logger.info('Enter Proper data.');
+        res.status(Status.BAD_REQUEST).json(output.fail());
+      }
     } catch (e) {
       await t.rollback();
       logger.error('Failed to add new user.');
@@ -48,18 +53,23 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = { ...req.body };
-      const user = await UserLogin(payload, req.context, t, repository);
-      await t.commit();
-      logger.info('User successfully logged in. ');
+      if (payload.email && payload.password) {
+        const user = await UserLogin(payload, req.context, t, repository);
+        await t.commit();
+        logger.info('User successfully logged in.');
 
-      const accessToken = createToken(user);
-      res.cookie('access-token', accessToken, {
-        maxAge: 60 * 10 * 1000,
-      });
-      res.status(Status.OK).json(output.success(user));
+        const accessToken = createToken(user);
+        res.cookie('access-token', accessToken, {
+          maxAge: 60 * 10 * 1000,
+        });
+        res.status(Status.OK).json(output.success(user));
+      } else {
+        logger.info('Provide login email and password.');
+        res.status(Status.BAD_REQUEST).json(output.fail());
+      }
     } catch (e) {
       await t.rollback();
-      logger.error('User is not able to login.');
+      logger.error('Something went wrong! Please try again later.');
       next(e);
       res.status(Status.NOT_FOUND).json(output.fail());
     }

@@ -32,13 +32,18 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = { ...req.body };
-      const staff = await StaffCreate(payload, req.context, t, repository);
-      await t.commit();
-      logger.info('New staff added.');
-      res.status(Status.OK).json(output.success(staff));
+      if (payload) {
+        const staff = await StaffCreate(payload, req.context, t, repository);
+        await t.commit();
+        logger.info('New staff added.');
+        res.status(Status.OK).json(output.success(staff));
+      } else {
+        logger.info('Failed to add new staff.');
+        res.status(Status.BAD_REQUEST).json(output.success());
+      }
     } catch (e) {
       await t.rollback();
-      logger.error('Failed to add new staff.');
+      logger.error('Something went wrong');
       next(e);
     }
   });
