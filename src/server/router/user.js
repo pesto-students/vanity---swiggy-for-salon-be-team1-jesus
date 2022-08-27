@@ -35,11 +35,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const user = await UserCreate(payload, req.context, t, repository);
       await t.commit();
-      logger.info(payload.name, 'New User added.');
+      logger.info('New User added.');
       res.status(Status.OK).json(output.success(user));
     } catch (e) {
       await t.rollback();
-      logger.error(payload.name, 'Failed to add new user.');
+      logger.error('Failed to add new user.');
       next(e);
     }
   });
