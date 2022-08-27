@@ -50,7 +50,7 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const user = await UserLogin(payload, req.context, t, repository);
       await t.commit();
-      logger.info('User successfully logged in.');
+      logger.info('User successfully logged in. ');
 
       const accessToken = createToken(user);
       res.cookie('access-token', accessToken, {
