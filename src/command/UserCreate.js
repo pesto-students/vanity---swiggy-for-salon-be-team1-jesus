@@ -6,7 +6,8 @@ const { config } = require('dotenv');
 module.exports = async (payload, context, t, repository) => {
   const { userRepository } = repository;
 
-  const saltRounds = config.saltRounds;
+  console.log('$$$$$$$$', payload);
+  const saltRounds = config.saltRound || 10;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hash = bcrypt.hashSync(payload.password, salt);
   payload.password = hash;
