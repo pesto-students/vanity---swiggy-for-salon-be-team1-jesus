@@ -1,7 +1,5 @@
 const Staff = require('../domain/models/staff');
 const CoreUtil = require('../utils/core');
-const bcrypt = require('bcrypt');
-const { config } = require('dotenv');
 
 module.exports = async (payload, context, t, repository) => {
   const { staffRepository } = repository;
