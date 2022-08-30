@@ -19,7 +19,9 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(staff));
       } else {
         logger.error('Failed to retrive staffs data.');
-        res.status(Status.BAD_REQUEST).json(output.fail(staff));
+        res
+          .status(Status.BAD_REQUEST)
+          .json(output.fail('Failed to retrive staffs data.'));
       }
     } catch (e) {
       await t.rollback();
@@ -39,7 +41,9 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(staff));
       } else {
         logger.info('Failed to add new staff.');
-        res.status(Status.BAD_REQUEST).json(output.success());
+        res
+          .status(Status.BAD_REQUEST)
+          .json(output.fail('Failed to add new staff.'));
       }
     } catch (e) {
       await t.rollback();

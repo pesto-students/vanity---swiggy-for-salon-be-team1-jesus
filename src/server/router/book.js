@@ -13,8 +13,14 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const booking = await bookingCreate(payload, req.context, t, repository);
       await t.commit();
-      logger.info('Salon booked successfully.');
-      res.status(Status.OK).json(output.success(booking));
+
+      if (typeof booking == 'string') {
+        logger.info(booking);
+        res.status(Status.NOT_IMPLEMENTED).json(output.fail(booking));
+      } else {
+        logger.info('Salon booked successfully.');
+        res.status(Status.OK).json(output.success(booking));
+      }
     } catch (e) {
       logger.error('Failed to book salon.');
       await t.rollback();

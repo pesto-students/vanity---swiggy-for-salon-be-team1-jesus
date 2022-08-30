@@ -33,7 +33,9 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(service));
       } else {
         logger.info('Failed to get service data.');
-        res.status(Status.BAD_REQUEST).json(output.fail(service));
+        res
+          .status(Status.BAD_REQUEST)
+          .json(output.fail('Failed to get service data.'));
       }
     } catch (e) {
       await t.rollback();

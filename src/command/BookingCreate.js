@@ -12,5 +12,6 @@ module.exports = async (payload, context, t, repository) => {
   const booking = new Booking(payload);
   const new_booking = await bookingRepository.add(booking, t);
 
+  console.log('new_', new_booking);
   return new_booking;
 };

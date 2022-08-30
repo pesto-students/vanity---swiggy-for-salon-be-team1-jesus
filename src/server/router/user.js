@@ -65,13 +65,14 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(user));
       } else {
         logger.info('Provide login email and password.');
-        res.status(Status.BAD_REQUEST).json(output.fail());
+        res
+          .status(Status.BAD_REQUEST)
+          .json(output.loginFail('Provide login email and password.'));
       }
     } catch (e) {
       await t.rollback();
       logger.error('Something went wrong! Please try again later.');
       next(e);
-      res.status(Status.NOT_FOUND).json(output.fail());
     }
   });
 

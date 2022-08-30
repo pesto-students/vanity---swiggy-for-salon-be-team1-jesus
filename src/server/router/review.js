@@ -34,7 +34,9 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(review));
       } else {
         logger.info('Failed to get all reviews.');
-        res.status(Status.BAD_REQUEST).json(output.fail(review));
+        res
+          .status(Status.BAD_REQUEST)
+          .json(output.fail('Failed to get all reviews.'));
       }
     } catch (e) {
       await t.rollback();
