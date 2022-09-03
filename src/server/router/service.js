@@ -17,7 +17,7 @@ module.exports = ({ logger, database, repository, output }) => {
       res.status(Status.OK).json(output.success(service));
     } catch (e) {
       await t.rollback();
-      logger.error('Failed to add service data.');
+      logger.error(e);
       next(e);
     }
   });
@@ -39,7 +39,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Something went wrong!');
+      logger.error(e);
       next(e);
     }
   });

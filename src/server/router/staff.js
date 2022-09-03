@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const Status = require('http-status');
-const { createToken } = require('../../utils/auth');
 
 const StaffCreate = require('../../command/StaffCreate');
 const StaffGetAll = require('../../assembler/StaffGetAll');
@@ -25,7 +24,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Something went wrong!');
+      logger.error(e);
       next(e);
     }
   });
@@ -47,7 +46,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Something went wrong');
+      logger.error(e);
       next(e);
     }
   });

@@ -5,7 +5,6 @@ const Sequelize = require('sequelize');
 const SequelizeAuto = require('sequelize-auto');
 const { Transaction } = require('sequelize');
 
-// TODO: DB Config Validation
 module.exports = (config, logger) => {
   if (config.options.logging) {
     config.options.logging = (msg) => logger.debug(msg);

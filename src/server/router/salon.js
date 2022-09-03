@@ -14,11 +14,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const salon = await salonCreate(payload, req.context, t, repository);
       await t.commit();
-      logger.info(payload.name, 'Salons data added successfully.');
+      logger.info('Salons data added successfully.');
       res.status(Status.OK).json(output.success(salon));
     } catch (e) {
       await t.rollback();
-      logger.error('Failed to add Salons data.');
+      logger.error(e);
       next(e);
     }
   });
@@ -27,16 +27,24 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = {
-        parent: req.query.parent || false,
-        q: req.query.q,
+        city: req.query.city,
+        bestFor: req.query.bestFor,
+        rating: req.query.rating,
+        services: req.query.services,
         page: req.query.page || 1,
         size: req.query.size || 10,
       };
-      const salon = await salonGetAll(payload, req.context, t, repository);
+      const { salon, pagination } = await salonGetAll(
+        payload,
+        req.context,
+        t,
+        repository
+      );
       await t.commit();
+      console.log('111', salon);
       if (salon.length > 0) {
         logger.info('Salons data retrived successfully.');
-        res.status(Status.OK).json(output.success(salon));
+        res.status(Status.OK).json(output.success(salon, pagination));
       } else {
         logger.info('Failed to get Salons data.');
         res
@@ -45,7 +53,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Something went wrong');
+      logger.error(e);
       next(e);
     }
   });
@@ -53,14 +61,13 @@ module.exports = ({ logger, database, repository, output }) => {
   router.get('/data', async (req, res, next) => {
     const t = await database.transaction();
     try {
-      const payload = { ...req.query };
-      const salon = await salonGetFew(payload, req.context, t, repository);
+      console.log('123', salon);
       await t.commit();
       logger.info('Salons data retrived successfully.');
-      res.status(Status.OK).json(output.success(salon));
+      res.status(Status.OK).json(output.success(salon, pagination));
     } catch (e) {
       await t.rollback();
-      logger.error('Failed to get Salons data.');
+      logger.error(e);
       next(e);
     }
   });

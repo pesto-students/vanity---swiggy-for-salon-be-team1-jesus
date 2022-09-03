@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Service = sequelize.define(
+  const Review = sequelize.define(
     'review',
     {
       reviewId: {
@@ -21,17 +21,17 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
-  Service.associate = (models) => {
-    Service.belongsTo(models.salon, {
+  Review.associate = (models) => {
+    Review.belongsTo(models.salon, {
       onDelete: 'CASCADE',
       foreignKey: 'salonId',
     });
 
-    Service.belongsTo(models.user, {
+    Review.belongsTo(models.user, {
       onDelete: 'CASCADE',
       foreignKey: 'userId',
     });
   };
 
-  return Service;
+  return Review;
 };

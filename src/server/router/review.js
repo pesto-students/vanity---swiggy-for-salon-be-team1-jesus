@@ -3,7 +3,7 @@ const Status = require('http-status');
 
 const reviewCreate = require('../../command/ReviewCreate');
 const reviewGetAll = require('../../assembler/ReviewGetAll');
-const { validateToken } = require('../../utils/auth');
+// const { validateToken } = require('../../utils/auth');
 
 module.exports = ({ logger, database, repository, output }) => {
   const router = Router({ mergeParams: true });
@@ -13,11 +13,12 @@ module.exports = ({ logger, database, repository, output }) => {
     try {
       const payload = { ...req.body };
       const review = await reviewCreate(payload, req.context, t, repository);
+      console.log('rev', review);
       await t.commit();
       logger.info('Salon review added successfully.');
       res.status(Status.OK).json(output.success(review));
     } catch (e) {
-      logger.error('Failed to add review.');
+      logger.error(e);
       await t.rollback();
       next(e);
     }
@@ -40,7 +41,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Something went wrong!');
+      logger.error(e);
       next(e);
     }
   });

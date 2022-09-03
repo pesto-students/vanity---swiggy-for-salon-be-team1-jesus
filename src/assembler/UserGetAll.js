@@ -1,5 +1,10 @@
 module.exports = async (payload, context, t, repository) => {
   const { userRepository } = repository;
-  const users = await userRepository.getAll(t);
-  return users;
+  const user = await userRepository.getAll(payload, t);
+  const pagination = {
+    offset: payload.page,
+    limit: payload.size,
+    total: user.length,
+  };
+  return { user, pagination };
 };

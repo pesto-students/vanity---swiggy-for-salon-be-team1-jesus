@@ -18,13 +18,18 @@ module.exports = ({ logger, database, repository, output }) => {
         page: req.query.page || 1,
         size: req.query.size || 10,
       };
-      const user = await UserGetAll(payload, req.context, t, repository);
+      const { user, pagination } = await UserGetAll(
+        payload,
+        req.context,
+        t,
+        repository
+      );
       await t.commit();
       logger.info('All users data retrived successfully.');
-      res.status(Status.OK).json(output.success(user));
+      res.status(Status.OK).json(output.success(user, pagination));
     } catch (e) {
       await t.rollback();
-      logger.error('Failed to retrive users data.');
+      logger.error(e);
       next(e);
     }
   });
@@ -44,7 +49,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Failed to add new user.');
+      logger.error(e);
       next(e);
     }
   });
@@ -71,7 +76,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
-      logger.error('Something went wrong! Please try again later.');
+      logger.error(e);
       next(e);
     }
   });

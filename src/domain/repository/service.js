@@ -1,5 +1,4 @@
 const service = require('../../domain/models/service');
-const bcrypt = require('bcrypt');
 
 module.exports = ({ database }) => {
   const add = async (service, t) => {
@@ -17,8 +16,23 @@ module.exports = ({ database }) => {
       transaction: t,
     });
 
+    const svcs = [];
+    new_service.forEach((svc) => svcs.push(svc.dataValues.service));
+    let uniqueServices = [...new Set(svcs)];
+
     let services = new_service.map((k) => toDomain(k));
-    return services;
+    const data = [];
+    for (let i = 0; i < uniqueServices.length; i++) {
+      const results = services.filter(
+        (entry) => entry.service === uniqueServices[i]
+      );
+      const svs = {
+        service: uniqueServices[i],
+        subservice: results,
+      };
+      data.push(svs);
+    }
+    return data;
   };
 
   const toDomain = ({ dataValues }) => {

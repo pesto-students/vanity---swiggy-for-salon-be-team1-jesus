@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Service = sequelize.define(
+  const Booking = sequelize.define(
     'booking',
     {
       bookingId: {
@@ -19,17 +19,15 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.TIME,
         allowNull: false,
       },
-      services: {
-        type: DataTypes.STRING,
+      serviceIds: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
-      totalCost: {
+      totalAmount: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       bookingStatus: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       paymentStatus: {
         type: DataTypes.STRING,
@@ -40,20 +38,20 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
-  Service.associate = (models) => {
-    Service.belongsTo(models.salon, {
+  Booking.associate = (models) => {
+    Booking.belongsTo(models.salon, {
       onDelete: 'CASCADE',
       foreignKey: 'salonId',
     });
-    Service.belongsTo(models.user, {
+    Booking.belongsTo(models.user, {
       onDelete: 'CASCADE',
       foreignKey: 'userId',
     });
-    Service.belongsTo(models.staff, {
+    Booking.belongsTo(models.staff, {
       onDelete: 'CASCADE',
       foreignKey: 'staffId',
     });
   };
 
-  return Service;
+  return Booking;
 };

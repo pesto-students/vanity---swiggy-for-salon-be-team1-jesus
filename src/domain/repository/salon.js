@@ -1,4 +1,5 @@
 const Salon = require('../../domain/models/salon');
+const { Op } = require('sequelize');
 
 module.exports = ({ database }) => {
   const add = async (salon, t) => {
@@ -11,11 +12,30 @@ module.exports = ({ database }) => {
   };
 
   const getAll = async (query, t) => {
-    const new_salon = await database.models.salon.findAll({
+    const city = query.city;
+    const bestFor = query.bestFor || 'Unisex';
+    const rating = query.rating || 0;
+    const services = query.services ? query.services.split(',') : false;
+    let limit = query.size;
+    let offset = 0 + (query.page - 1) * limit;
+    const new_salon = await database.models.salon.findAndCountAll({
+      where: {
+        city,
+        bestFor,
+        rating: {
+          [Op.gte]: rating,
+        },
+        // services: {
+        //   [Op.or]: services,
+        // },
+      },
+      limit: +limit,
+      offset: offset,
       transaction: t,
     });
+    console.log(new_salon);
 
-    let salons = new_salon.map((k) => toDomain(k));
+    let salons = new_salon.rows.map((k) => toDomain(k));
     return salons;
   };
 

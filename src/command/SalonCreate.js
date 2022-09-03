@@ -9,6 +9,7 @@ module.exports = async (payload, context, t, repository) => {
   }
 
   payload.salonId = SID;
+  console.log('000', payload.services);
   const salon = new Salon(payload);
   const new_salon = await salonRepository.add(salon, t);
 

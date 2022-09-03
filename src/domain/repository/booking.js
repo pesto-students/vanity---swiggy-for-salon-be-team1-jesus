@@ -1,83 +1,75 @@
 const booking = require('../../domain/models/booking');
+const logic = require('./logic');
 const { Op } = require('sequelize');
 
 module.exports = ({ database }) => {
   const add = async (booking, t) => {
-    const totalStaff = await database.models.staff.findAll({
-      where: {
-        salonId: booking.salonId,
-        role: 'stylist',
-      },
-    });
+    const result = await logic({ database }, booking, t);
 
-    const bookedStaff = await database.models.booking.findAll({
-      order: [['endTime', 'ASC']],
-      where: {
-        salonId: booking.salonId,
-        bookingDate: booking.bookingDate,
-        [Op.or]: [
-          {
-            [Op.and]: [
-              {
-                startTime: {
-                  [Op.lte]: booking.startTime,
-                },
-              },
-              {
-                endTime: {
-                  [Op.gt]: booking.startTime,
-                },
-              },
-            ],
-          },
-          {
-            [Op.and]: [
-              {
-                startTime: {
-                  [Op.gte]: booking.startTime,
-                },
-              },
-              {
-                startTime: {
-                  [Op.lte]: booking.endTime,
-                },
-              },
-            ],
-          },
-          {
-            [Op.and]: [
-              {
-                startTime: {
-                  [Op.lte]: booking.endTime,
-                },
-              },
-              {
-                endTime: {
-                  [Op.gte]: booking.endTime,
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-
-    if (totalStaff.length > bookedStaff.length) {
-      const tStaff = [];
-      const bStaff = [];
-      totalStaff.forEach((staff) => tStaff.push(staff.dataValues.staffId));
-      bookedStaff.forEach((staff) => bStaff.push(staff.dataValues.staffId));
-
-      const availableStaff = tStaff.filter((x) => !bStaff.includes(x));
-      booking.staffId = availableStaff[0];
-      const data = toDatabase(booking);
-      const new_booking = await database.models.booking.create(data, {
-        transaction: t,
-      });
-
-      return toDomain(new_booking);
+    if (typeof result == 'string') {
+      return result;
     } else {
-      return `Next available slot starts from ${bookedStaff[0].dataValues.endTime}`;
+      let totalCost = 0;
+      for (let i = 0; i < result.serviceIds.length; i++) {
+        const svc = await database.models.service.findOne({
+          where: { serviceId: result.serviceIds[i] },
+        });
+        totalCost += svc.dataValues.price;
+      }
+      if (result.totalAmount == totalCost) {
+        result.bookingStatus = 'confirmed';
+        const data = toDatabase(result);
+        const new_booking = await database.models.booking.create(data, {
+          transaction: t,
+        });
+        return toDomain(new_booking);
+      } else {
+        return 'total amount is mismatched';
+      }
+    }
+  };
+
+  const updateBooking = async (booking, t) => {
+    const existingBooking = await database.models.booking.findOne({
+      where: {
+        bookingId: booking.bookingId,
+      },
+    });
+
+    if (existingBooking) {
+      const result = await logic({ database }, booking, t);
+      if (typeof result == 'object') {
+        const data = toDatabase(result);
+        const new_booking = await database.models.booking.update(data, {
+          where: {
+            bookingId: result.bookingId,
+          },
+          transaction: t,
+        });
+
+        return toDatabase(new_booking);
+      } else {
+        return result;
+      }
+    } else {
+      return 'No booking is available in records';
+    }
+  };
+
+  const deleteBooking = async (booking, t) => {
+    const new_booking = await database.models.booking.destroy({
+      where: {
+        bookingId: booking.bookingId,
+      },
+      transaction: t,
+    });
+
+    if (new_booking) {
+      return {
+        data: `Booking - ${booking.bookingId} is cancelled succesfully`,
+      };
+    } else {
+      return 'No booking is available in records';
     }
   };
 
@@ -117,6 +109,23 @@ module.exports = ({ database }) => {
         (booking.dataValues.staffName = booking.staff.dataValues.name)
     );
 
+    new_booking.map((booking) => (booking.dataValues.svc = []));
+
+    for (let i = 0; i < new_booking.length; i++) {
+      const svcName = await database.models.service.findAll({
+        where: {
+          serviceId: {
+            [Op.or]: new_booking[i].dataValues.serviceIds,
+          },
+        },
+      });
+      new_booking[i].dataValues.svc.push(
+        svcName.map((s) => s.dataValues.subservice)
+      );
+
+      new_booking[0].dataValues.svc = new_booking[0].dataValues.svc[0];
+    }
+
     let bookings = new_booking.map((k) => toDomain(k));
     return bookings;
   };
@@ -127,8 +136,8 @@ module.exports = ({ database }) => {
       bookingDate: dataValues.bookingDate,
       startTime: dataValues.startTime,
       endTime: dataValues.endTime,
-      services: dataValues.services,
-      totalCost: dataValues.totalCost,
+      serviceIds: dataValues.serviceIds,
+      totalAmount: dataValues.totalAmount,
       bookingStatus: dataValues.bookingStatus,
       paymentStatus: dataValues.paymentStatus,
       staffId: dataValues.staffId,
@@ -137,6 +146,7 @@ module.exports = ({ database }) => {
       staffName: dataValues.staffName,
       userName: dataValues.userName,
       salonName: dataValues.salonName,
+      serviceNames: dataValues.svc,
     });
   };
 
@@ -146,26 +156,21 @@ module.exports = ({ database }) => {
       bookingDate: entity.bookingDate,
       startTime: entity.startTime,
       endTime: entity.endTime,
-      services: entity.services,
-      totalCost: entity.totalCost,
+      serviceIds: entity.serviceIds,
+      totalAmount: entity.totalAmount,
       bookingStatus: entity.bookingStatus,
       paymentStatus: entity.paymentStatus,
       staffId: entity.staffId,
       userId: entity.userId,
       salonId: entity.salonId,
+      totalAmount: entity.totalAmount,
     };
   };
 
   return {
     add,
     getAll,
+    updateBooking,
+    deleteBooking,
   };
 };
-
-// SELECT `bookingId`, `bookingDate`, `startTime`, `endTime`, `services`, `totalCost`, `bookingStatus`, `paymentStatus`, `salonId`, `userId`, `staffId`
-// FROM `booking` AS `booking`
-// WHERE ((`booking`.`startTime` <= '00:09:30' AND `booking`.`endTime` <= '00:13:00')
-// OR (`booking`.`startTime` >= '00:09:30' AND `booking`.`endTime` <= '00:13:00')
-// OR (`booking`.`startTime` >= '00:09:30' AND `booking`.`endTime` >= '00:13:00')
-// OR (`booking`.`startTime` >= '00:09:30' AND `booking`.`endTime` <= '00:13:00'))
-// AND `booking`.`salonId` = 'SID-06281d49-9d85-4c2d-8378-43cb57ef969c';

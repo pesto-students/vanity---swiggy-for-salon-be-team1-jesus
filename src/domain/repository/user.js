@@ -13,11 +13,15 @@ module.exports = ({ database }) => {
   };
 
   const getAll = async (user, t) => {
-    const new_user = await database.models.user.findAll({
+    let limit = user.size;
+    let offset = 0 + (user.page - 1) * limit;
+    const new_user = await database.models.user.findAndCountAll({
+      limit: +limit,
+      offset: offset,
       transaction: t,
     });
 
-    let users = new_user.map((k) => toDomain(k));
+    let users = new_user.rows.map((k) => toDomain(k));
     return users;
   };
 

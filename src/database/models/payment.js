@@ -1,32 +1,32 @@
 module.exports = function (sequelize, DataTypes) {
-  const Staff = sequelize.define(
-    'staff',
+  const Payment = sequelize.define(
+    'payment',
     {
-      staffId: {
+      paymentId: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
       },
-      role: {
+      paymentDate: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      name: {
-        type: DataTypes.STRING,
+      amount: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
-      tableName: 'staff',
+      tableName: 'payment',
     }
   );
 
-  Staff.associate = (models) => {
-    Staff.belongsTo(models.salon, {
+  Payment.associate = (models) => {
+    Payment.belongsTo(models.booking, {
       onDelete: 'CASCADE',
-      foreignKey: 'salonId',
+      foreignKey: 'bookingId',
     });
   };
 
-  return Staff;
+  return Payment;
 };
