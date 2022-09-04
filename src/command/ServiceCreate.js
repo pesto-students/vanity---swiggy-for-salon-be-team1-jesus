@@ -9,7 +9,6 @@ module.exports = async (payload, context, t, repository) => {
   }
 
   payload.serviceId = SID;
-  console.log(payload);
   const service = new Service(payload);
   const new_service = await serviceRepository.add(service, t);
   return new_service;

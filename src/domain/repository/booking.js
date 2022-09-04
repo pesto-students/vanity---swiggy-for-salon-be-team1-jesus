@@ -73,9 +73,14 @@ module.exports = ({ database }) => {
     }
   };
 
-  const getAll = async (booking, t) => {
-    let new_booking = await database.models.booking.findAll({
-      where: { salonId: booking.salonId },
+  const getAll = async (query, t) => {
+    const userId = query.userId;
+    const salonId = query.salonId;
+    let limit = query.size;
+    let offset = 0 + (query.page - 1) * limit;
+
+    const options = {
+      where: {},
       include: [
         {
           model: database.models.salon,
@@ -93,38 +98,43 @@ module.exports = ({ database }) => {
           required: true,
         },
       ],
-
+      limit: +limit,
+      offset: offset,
       transaction: t,
-    });
+    };
+    if (userId !== undefined) options.where.userId = userId;
+    if (salonId !== undefined) options.where.salonId = salonId;
 
-    new_booking.map(
+    let new_booking = await database.models.booking.findAndCountAll(options);
+
+    new_booking.rows.map(
       (booking) =>
         (booking.dataValues.salonName = booking.salon.dataValues.name)
     );
-    new_booking.map(
+    new_booking.rows.map(
       (booking) => (booking.dataValues.userName = booking.user.dataValues.name)
     );
-    new_booking.map(
+    new_booking.rows.map(
       (booking) =>
         (booking.dataValues.staffName = booking.staff.dataValues.name)
     );
 
-    new_booking.map((booking) => (booking.dataValues.svc = []));
+    new_booking.rows.map((booking) => (booking.dataValues.svc = []));
 
-    for (let i = 0; i < new_booking.length; i++) {
+    for (let i = 0; i < new_booking.rows.length; i++) {
       const svcName = await database.models.service.findAll({
         where: {
           serviceId: {
-            [Op.or]: new_booking[i].dataValues.serviceIds,
+            [Op.or]: new_booking.rows[i].dataValues.serviceIds,
           },
         },
       });
-      new_booking[i].dataValues.svc.push(
+      new_booking.rows[i].dataValues.svc.push(
         svcName.map((s) => s.dataValues.subservice)
       );
     }
 
-    let bookings = new_booking.map((k) => toDomain(k));
+    let bookings = new_booking.rows.map((k) => toDomain(k));
     return bookings;
   };
 

@@ -13,7 +13,6 @@ module.exports = ({ logger, database, repository, output }) => {
     try {
       const payload = { ...req.body };
       const review = await reviewCreate(payload, req.context, t, repository);
-      console.log('rev', review);
       await t.commit();
       logger.info('Salon review added successfully.');
       res.status(Status.OK).json(output.success(review));

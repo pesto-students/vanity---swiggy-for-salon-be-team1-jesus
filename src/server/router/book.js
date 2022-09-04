@@ -35,12 +35,22 @@ module.exports = ({ logger, database, repository, output }) => {
   router.get('/', async (req, res, next) => {
     const t = await database.transaction();
     try {
-      const payload = { ...req.query };
-      const booking = await bookingGetAll(payload, req.context, t, repository);
+      const payload = {
+        userId: req.query.userId,
+        salonId: req.query.salonId,
+        page: req.query.page || 1,
+        size: req.query.size || 10,
+      };
+      const { booking, pagination } = await bookingGetAll(
+        payload,
+        req.context,
+        t,
+        repository
+      );
       await t.commit();
       if (booking.length > 0) {
         logger.info('Salon bookings retrived successfully.');
-        res.status(Status.OK).json(output.success(booking));
+        res.status(Status.OK).json(output.success(booking, pagination));
       } else {
         logger.info('Failed to get salon bookings.');
         res.status(Status.BAD_REQUEST).json(output.fail());
