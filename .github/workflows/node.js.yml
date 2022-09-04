@@ -4,7 +4,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: ['feature-booking-update']
+    branches: ['feature-salon-search']
 
 jobs:
   build:

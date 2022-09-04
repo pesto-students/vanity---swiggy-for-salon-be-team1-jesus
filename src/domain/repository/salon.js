@@ -13,40 +13,68 @@ module.exports = ({ database }) => {
 
   const getAll = async (query, t) => {
     const city = query.city;
-    const bestFor = query.bestFor || 'Unisex';
+    const bestFor = query.bestFor;
     const rating = query.rating || 0;
-    const services = query.services ? query.services.split(',') : false;
+    const services = query.services ? query.services.split(',') : undefined;
+    const budgetSort = query.budgetSort;
+    const ratingSort = query.ratingSort;
     let limit = query.size;
     let offset = 0 + (query.page - 1) * limit;
-    const new_salon = await database.models.salon.findAndCountAll({
+
+    // declare our query options
+    const options = {
+      order: [],
       where: {
-        city,
-        bestFor,
         rating: {
           [Op.gte]: rating,
         },
-        // services: {
-        //   [Op.or]: services,
-        // },
+      },
+      limit: +limit,
+      offset: offset,
+      transaction: t,
+    };
+
+    // if status has a value (!== undefined), include it in the query
+    if (city !== undefined) options.where.city = city;
+    if (bestFor !== undefined) options.where.bestFor = bestFor;
+    if (budgetSort !== undefined) options.order.push(['avgCost', budgetSort]);
+    if (ratingSort !== undefined) options.order.push(['rating', ratingSort]);
+
+    let new_salon = await database.models.salon.findAndCountAll(options);
+
+    let salons;
+    if (services !== undefined) {
+      const filteredSalons = [];
+      for (let i = 0; i < new_salon.rows.length; i++) {
+        if (
+          services.every((s) =>
+            new_salon.rows[i].dataValues.services.includes(s)
+          )
+        ) {
+          filteredSalons.push(new_salon.rows[i]);
+        }
+      }
+      salons = filteredSalons.map((k) => toDomain(k));
+    } else {
+      salons = new_salon.rows.map((k) => toDomain(k));
+    }
+    return salons;
+  };
+
+  const search = async (query, t) => {
+    const name = query.name;
+    let limit = query.size;
+    let offset = 0 + (query.page - 1) * limit;
+    const new_salon = await database.models.salon.findAll({
+      where: {
+        name: {
+          [Op.regexp]: name || ' ',
+        },
       },
       limit: +limit,
       offset: offset,
       transaction: t,
     });
-    console.log(new_salon);
-
-    let salons = new_salon.rows.map((k) => toDomain(k));
-    return salons;
-  };
-
-  const salonGet = async (query, t) => {
-    const serchByKey = Object.keys(query);
-    const serchByValue = Object.values(query);
-    const new_salon = await database.models.salon.findAll({
-      where: { [serchByKey]: [serchByValue] },
-      transaction: t,
-    });
-
     let salons = new_salon.map((k) => toDomain(k));
     return salons;
   };
@@ -92,6 +120,6 @@ module.exports = ({ database }) => {
   return {
     add,
     getAll,
-    salonGet,
+    search,
   };
 };

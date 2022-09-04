@@ -122,8 +122,6 @@ module.exports = ({ database }) => {
       new_booking[i].dataValues.svc.push(
         svcName.map((s) => s.dataValues.subservice)
       );
-
-      new_booking[0].dataValues.svc = new_booking[0].dataValues.svc[0];
     }
 
     let bookings = new_booking.map((k) => toDomain(k));

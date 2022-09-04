@@ -3,7 +3,7 @@ const Status = require('http-status');
 
 const salonCreate = require('../../command/SalonCreate');
 const salonGetAll = require('../../assembler/SalonGetAll');
-const salonGetFew = require('../../assembler/SalonGet');
+const salonGet = require('../../assembler/SalonGet');
 
 module.exports = ({ logger, database, repository, output }) => {
   const router = Router({ mergeParams: true });
@@ -31,6 +31,8 @@ module.exports = ({ logger, database, repository, output }) => {
         bestFor: req.query.bestFor,
         rating: req.query.rating,
         services: req.query.services,
+        budgetSort: req.query.budgetSort,
+        ratingSort: req.query.ratingSort,
         page: req.query.page || 1,
         size: req.query.size || 10,
       };
@@ -41,7 +43,6 @@ module.exports = ({ logger, database, repository, output }) => {
         repository
       );
       await t.commit();
-      console.log('111', salon);
       if (salon.length > 0) {
         logger.info('Salons data retrived successfully.');
         res.status(Status.OK).json(output.success(salon, pagination));
@@ -61,7 +62,17 @@ module.exports = ({ logger, database, repository, output }) => {
   router.get('/data', async (req, res, next) => {
     const t = await database.transaction();
     try {
-      console.log('123', salon);
+      const payload = {
+        name: req.query.name,
+        page: req.query.page || 1,
+        size: req.query.size || 10,
+      };
+      const { salon, pagination } = await salonGet(
+        payload,
+        req.context,
+        t,
+        repository
+      );
       await t.commit();
       logger.info('Salons data retrived successfully.');
       res.status(Status.OK).json(output.success(salon, pagination));
