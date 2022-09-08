@@ -3,7 +3,7 @@ const Status = require('http-status');
 
 const salonCreate = require('../../command/SalonCreate');
 const salonGetAll = require('../../assembler/SalonGetAll');
-const salonGetFew = require('../../assembler/SalonGet');
+const salonGet = require('../../assembler/SalonGet');
 
 module.exports = ({ logger, database, repository, output }) => {
   const router = Router({ mergeParams: true });
@@ -14,9 +14,11 @@ module.exports = ({ logger, database, repository, output }) => {
       const payload = { ...req.body };
       const salon = await salonCreate(payload, req.context, t, repository);
       await t.commit();
+      logger.info('Salons data added successfully.');
       res.status(Status.OK).json(output.success(salon));
     } catch (e) {
       await t.rollback();
+      logger.error(e);
       next(e);
     }
   });
@@ -25,16 +27,34 @@ module.exports = ({ logger, database, repository, output }) => {
     const t = await database.transaction();
     try {
       const payload = {
-        parent: req.query.parent || false,
-        q: req.query.q,
+        city: req.query.city,
+        bestFor: req.query.bestFor,
+        rating: req.query.rating,
+        services: req.query.services,
+        budgetSort: req.query.budgetSort,
+        ratingSort: req.query.ratingSort,
         page: req.query.page || 1,
         size: req.query.size || 10,
       };
-      const salon = await salonGetAll(payload, req.context, t, repository);
+      const { salon, pagination } = await salonGetAll(
+        payload,
+        req.context,
+        t,
+        repository
+      );
       await t.commit();
-      res.status(Status.OK).json(output.success(salon));
+      if (salon.length > 0) {
+        logger.info('Salons data retrived successfully.');
+        res.status(Status.OK).json(output.success(salon, pagination));
+      } else {
+        logger.info('Failed to get Salons data.');
+        res
+          .status(Status.BAD_REQUEST)
+          .json(output.fail('Failed to get Salons data.'));
+      }
     } catch (e) {
       await t.rollback();
+      logger.error(e);
       next(e);
     }
   });
@@ -42,12 +62,23 @@ module.exports = ({ logger, database, repository, output }) => {
   router.get('/data', async (req, res, next) => {
     const t = await database.transaction();
     try {
-      const payload = { ...req.query };
-      const salon = await salonGetFew(payload, req.context, t, repository);
+      const payload = {
+        name: req.query.name,
+        page: req.query.page || 1,
+        size: req.query.size || 10,
+      };
+      const { salon, pagination } = await salonGet(
+        payload,
+        req.context,
+        t,
+        repository
+      );
       await t.commit();
-      res.status(Status.OK).json(output.success(salon));
+      logger.info('Salons data retrived successfully.');
+      res.status(Status.OK).json(output.success(salon, pagination));
     } catch (e) {
       await t.rollback();
+      logger.error(e);
       next(e);
     }
   });

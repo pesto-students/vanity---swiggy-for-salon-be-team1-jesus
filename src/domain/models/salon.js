@@ -1,5 +1,6 @@
 const { attributes } = require('structure');
 
+//Salons data validation
 const Salon = attributes({
   salonId: { type: String, required: true, exactLength: 40 },
   name: { type: String, required: true },
@@ -10,6 +11,7 @@ const Salon = attributes({
   ownerName: { type: String, required: true },
   ownerQuote: { type: String, required: true },
   manPower: { type: Number, required: true },
+  services: { type: Object, required: true },
   rating: { type: Number, required: true },
   bestFor: { type: String, required: true },
   avgCost: { type: Number, required: true },

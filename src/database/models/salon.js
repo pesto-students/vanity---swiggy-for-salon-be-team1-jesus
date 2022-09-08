@@ -54,6 +54,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      services: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
       avgCost: {
         type: DataTypes.INTEGER,
         allowNull: false,

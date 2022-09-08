@@ -1,4 +1,4 @@
-const User = require('../domain/models/salon');
+const Salon = require('../domain/models/salon');
 const CoreUtil = require('../utils/core');
 
 module.exports = async (payload, context, t, repository) => {
@@ -9,7 +9,8 @@ module.exports = async (payload, context, t, repository) => {
   }
 
   payload.salonId = SID;
-  const salon = new User(payload);
+  console.log('000', payload.services);
+  const salon = new Salon(payload);
   const new_salon = await salonRepository.add(salon, t);
 
   return new_salon;

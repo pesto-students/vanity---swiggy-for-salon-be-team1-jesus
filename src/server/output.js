@@ -13,11 +13,16 @@ module.exports = () => {
   };
 
   const fail = (data) => {
-    return assoc('error', data, defaultResponse(false));
+    return assoc('data', data, defaultResponse(false));
+  };
+
+  const loginFail = (data) => {
+    return assoc('data', data, defaultResponse(false));
   };
 
   return {
     success,
     fail,
+    loginFail,
   };
 };

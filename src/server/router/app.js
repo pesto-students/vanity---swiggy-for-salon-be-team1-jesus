@@ -4,6 +4,7 @@ const CookieParser = require('cookie-parser');
 const Compression = require('compression');
 const ExpressPromBundle = require('express-prom-bundle');
 const HealthCheck = require('../../assembler/healthCheck');
+require('dotenv').config();
 
 const cors = require('cors');
 const { BAD_GATEWAY, OK } = require('http-status');
@@ -11,7 +12,7 @@ const { BAD_GATEWAY, OK } = require('http-status');
 module.exports = ({ config, repository }) => {
   const app = Express.Router();
 
-  if (config.environment === 'dev') {
+  if (process.env.NODE_ENV === 'dev') {
     app.use(ExpressStatusMonitor());
   }
 

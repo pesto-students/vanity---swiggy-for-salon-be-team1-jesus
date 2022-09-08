@@ -11,3 +11,5 @@ app
     console.log(error);
     process.exit();
   });
+
+module.exports = app;
