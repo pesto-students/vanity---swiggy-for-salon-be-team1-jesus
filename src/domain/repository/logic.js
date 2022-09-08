@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 
 const logic = async ({ database }, booking, t) => {
+  //Get the total number of hair-stylist staff for the salon
   const totalStaff = await database.models.staff.findAll({
     where: {
       salonId: booking.salonId,
@@ -8,6 +9,11 @@ const logic = async ({ database }, booking, t) => {
     },
   });
 
+  /**
+   * Get the new booking data like booking date, id, time slot etc
+   * Get all the booked staff who are busy in the slot in which a new customer wanted to book an appointment
+   *
+   */
   const bookedStaff = await database.models.booking.findAll({
     order: [['endTime', 'ASC']],
     where: {
@@ -60,6 +66,7 @@ const logic = async ({ database }, booking, t) => {
     },
   });
 
+  //If any staff is free in the new booking time slot then assign the staff to new booking.
   if (totalStaff.length > bookedStaff.length) {
     const tStaff = [];
     const bStaff = [];

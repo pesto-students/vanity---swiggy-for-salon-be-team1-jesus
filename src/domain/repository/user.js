@@ -14,6 +14,7 @@ module.exports = ({ database }) => {
   };
 
   const getAll = async (user, t) => {
+    //Pagination logic
     let limit = user.size;
     let offset = 0 + (user.page - 1) * limit;
 
@@ -57,6 +58,7 @@ module.exports = ({ database }) => {
     });
   };
 
+  //Store the data
   const toDatabase = (entity) => {
     return {
       userId: entity.userId,

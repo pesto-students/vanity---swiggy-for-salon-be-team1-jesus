@@ -9,6 +9,30 @@ For front-end repository <a href="https://github.com/pesto-students/vanity---swi
 <!-- TABLE OF CONTENTS -->
 <br/>
 
+# Folder structure
+
+![](/Images/folderstructure.png)
+
+## Server
+
+This folder contains files that contains nodejs server configuration, logging mechanism. It also consists of Router folder which contains all the routes that vanity app is using.
+
+## Database
+
+This folder contains the files that contain MySql configuration and the model folder which contains all the models that we are using in the vanity app.
+
+## Assembler
+
+This folder contains files that returns the data from the database modal. All the read operations performed by vanity app are declared in assembler folder.
+
+## Command
+
+This folder contains files that writes the data in the database modal. All the writes, updates, delete operations performed by vanity app are declared in command folder.
+
+## Domain
+
+This folder contains the models folder which validates the data entered by customer and repository folder which queries the database, perform the logic and return the data.
+
 # Table of Contents
 
 1. [Demo](#demo)
@@ -28,8 +52,10 @@ For front-end repository <a href="https://github.com/pesto-students/vanity---swi
 Please Note:
 
 - We recommend using this app in latest browser with javascript support.
-  <!-- Try demo credentials if you not comfortable with Google SignIn OAuth. -->
-  <!-- Payment Gateway is in test mode, so use <code>4111 1111 1111</code> as card no to continue. -->
+- Try demo credentials </br>
+  email: Simon@gmail.com </br>
+  password: Simon123 </br>
+- Payment Gateway is in test mode, so use <code>4111 1111 1111 1111</code> or UPI Id: <code>Success@razorpay</code> as card no to continue.
 
 <br/>
 
@@ -46,6 +72,11 @@ Please Note:
    MYSQL_USER=<br />
    MYSQL_PASSWORD=<br />
    MYSQL_DATABASE=<br />
+   NEWRELIC_LICENSE_KEY=<br />
+   EMAIL_ADDRESS=<br />
+   EMAIL_SECRET_KEY=<br />
+   EMAIL_HOST=<br />
+   EMAIL_PORT=<br />
 
 3. Install NPM packages
    ```sh

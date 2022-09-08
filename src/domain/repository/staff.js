@@ -45,6 +45,7 @@ module.exports = ({ database }) => {
     });
   };
 
+  //Store the data
   const toDatabase = (entity) => {
     return {
       staffId: entity.staffId,

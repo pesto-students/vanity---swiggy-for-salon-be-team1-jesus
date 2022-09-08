@@ -4,7 +4,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: ['Feature-email']
+    branches: ['feature-email']
 
 jobs:
   build:

@@ -47,7 +47,7 @@ module.exports = ({ database }) => {
 
     /**
      * Filter all the salons that contains required services
-     * if services is present add the salon data in filteredSalons array
+     * If services are present then add the salon data in filteredSalons array
      */
     let salons;
     if (services !== undefined) {
