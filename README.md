@@ -58,7 +58,9 @@ Please Note:
 5. Open http://localhost:8000 to view it in the browser
 
 6. Run Test cases
-   `sh npm test `
+   ```sh
+   npm test
+   ```
    <br/>
 
 # Technology Stack

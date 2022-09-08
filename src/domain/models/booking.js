@@ -1,5 +1,6 @@
 const { attributes } = require('structure');
 
+// Booking data validations
 const Booking = attributes({
   bookingId: { type: String, required: true, exactLength: 40 },
   bookingDate: { type: String, required: true },

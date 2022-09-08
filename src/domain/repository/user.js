@@ -5,6 +5,7 @@ module.exports = ({ database }) => {
   const add = async (user, t) => {
     const data = toDatabase(user);
 
+    //Add new user entry in user database
     const new_user = await database.models.user.create(data, {
       transaction: t,
     });
@@ -15,28 +16,34 @@ module.exports = ({ database }) => {
   const getAll = async (user, t) => {
     let limit = user.size;
     let offset = 0 + (user.page - 1) * limit;
+
+    // Get the users data and pass the data with pagination
     const new_user = await database.models.user.findAndCountAll({
       limit: +limit,
       offset: offset,
       transaction: t,
     });
 
-    let users = new_user.rows.map((k) => toDomain(k));
+    //Map all the users data
+    let users = new_user.rows.map((userData) => toDomain(userData));
     return users;
   };
 
   const login = async (data, t) => {
+    //Search user with email
     const new_user = await database.models.user.findOne({
       where: { email: data.email },
       transaction: t,
     });
 
+    //Comapare the password with hashed value
     const { dataValues } = new_user;
     let bool = bcrypt.compareSync(data.password, dataValues.password);
     if (!bool) throw new Error('Password is wrong!');
     return toDomain(new_user);
   };
 
+  //Validate the data provide by user
   const toDomain = ({ dataValues }) => {
     return new User({
       userId: dataValues.userId,

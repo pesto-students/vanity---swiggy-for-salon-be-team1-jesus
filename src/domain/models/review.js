@@ -1,5 +1,6 @@
 const { attributes } = require('structure');
 
+//Salon reviews data validation
 const Review = attributes({
   reviewId: { type: String, required: true, exactLength: 40 },
   review: { type: String, required: true },

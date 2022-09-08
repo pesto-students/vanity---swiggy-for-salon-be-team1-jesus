@@ -21,6 +21,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
+  //sequalize associations that belongs to some other database model
   Review.associate = (models) => {
     Review.belongsTo(models.salon, {
       onDelete: 'CASCADE',

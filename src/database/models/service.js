@@ -29,6 +29,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
+  //sequalize associations that belongs to some other database model
   Service.associate = (models) => {
     Service.belongsTo(models.salon, {
       onDelete: 'CASCADE',

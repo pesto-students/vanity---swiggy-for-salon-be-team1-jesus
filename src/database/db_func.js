@@ -11,6 +11,7 @@ module.exports = (config, logger) => {
     config.options.logQueryParameters = true;
   }
 
+  //Database connection string
   const sequelize = new Sequelize(
     process.env.MYSQL_DATABASE,
     process.env.MYSQL_USER,
@@ -38,12 +39,19 @@ module.exports = (config, logger) => {
   };
 
   config.options.logging = false;
+
+  //Read all the database models in the src/database/models folder
   const options = Object.assign(
     { directory: path.resolve('src/database/models') },
     config.modelOptions,
     config.options
   );
 
+  /**
+   * Read all files present in src/database/model folder
+   * create the model in database
+   * Synchonize with database
+   */
   Promise.all(
     fs.readdirSync(options.directory).map((filename) => {
       if (filename !== '_associations.js' && filename.endsWith('.js')) {
@@ -64,6 +72,7 @@ module.exports = (config, logger) => {
     return;
   });
 
+  // Mapping association present in each database model
   Object.keys(db.models).forEach((key) => {
     if ('associate' in db.models[key]) {
       db.models[key].associate(db.models);

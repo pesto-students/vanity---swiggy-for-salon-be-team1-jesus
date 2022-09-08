@@ -1,5 +1,6 @@
 const { attributes } = require('structure');
 
+// User data validation
 const User = attributes({
   userId: { type: String, required: true, exactLength: 40 },
   name: { type: String, required: true },

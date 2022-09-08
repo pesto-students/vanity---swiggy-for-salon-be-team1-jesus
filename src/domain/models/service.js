@@ -1,5 +1,6 @@
 const { attributes } = require('structure');
 
+// Salon services data validation
 const Service = attributes({
   serviceId: { type: String, required: true, exactLength: 40 },
   service: { type: String, required: true },

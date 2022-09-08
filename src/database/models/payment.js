@@ -21,6 +21,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
+  //sequalize associations that belongs to some other database model
   Payment.associate = (models) => {
     Payment.belongsTo(models.booking, {
       onDelete: 'CASCADE',

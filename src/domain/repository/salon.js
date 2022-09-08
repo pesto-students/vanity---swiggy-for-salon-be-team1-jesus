@@ -5,6 +5,7 @@ module.exports = ({ database }) => {
   const add = async (salon, t) => {
     const data = toDatabase(salon);
 
+    // Add new salon entry in salon database
     const new_salon = await database.models.salon.create(data, {
       transaction: t,
     });
@@ -12,6 +13,7 @@ module.exports = ({ database }) => {
   };
 
   const getAll = async (query, t) => {
+    // Read all parameters provided to filter the salons data
     const city = query.city;
     const bestFor = query.bestFor;
     const rating = query.rating || 0;
@@ -34,14 +36,19 @@ module.exports = ({ database }) => {
       transaction: t,
     };
 
-    // if status has a value (!== undefined), include it in the query
+    // if parameter has a value (!== undefined), include it in the query
     if (city !== undefined) options.where.city = city;
     if (bestFor !== undefined) options.where.bestFor = bestFor;
     if (budgetSort !== undefined) options.order.push(['avgCost', budgetSort]);
     if (ratingSort !== undefined) options.order.push(['rating', ratingSort]);
 
+    // filtered query
     let new_salon = await database.models.salon.findAndCountAll(options);
 
+    /**
+     * Filter all the salons that contains required services
+     * if services is present add the salon data in filteredSalons array
+     */
     let salons;
     if (services !== undefined) {
       const filteredSalons = [];
@@ -54,8 +61,11 @@ module.exports = ({ database }) => {
           filteredSalons.push(new_salon.rows[i]);
         }
       }
+
+      // Map all the salons data together
       salons = filteredSalons.map((k) => toDomain(k));
     } else {
+      // If services filter is not present the return the origin salons data
       salons = new_salon.rows.map((k) => toDomain(k));
     }
     return salons;
@@ -65,6 +75,8 @@ module.exports = ({ database }) => {
     const name = query.name;
     let limit = query.size;
     let offset = 0 + (query.page - 1) * limit;
+
+    //Search salon with some name present in salon name
     const new_salon = await database.models.salon.findAll({
       where: {
         name: {
@@ -75,10 +87,13 @@ module.exports = ({ database }) => {
       offset: offset,
       transaction: t,
     });
+
+    // Map all the salons data together
     let salons = new_salon.map((k) => toDomain(k));
     return salons;
   };
 
+  //Validate the salons data
   const toDomain = ({ dataValues }) => {
     return new Salon({
       salonId: dataValues.salonId,
@@ -98,6 +113,7 @@ module.exports = ({ database }) => {
     });
   };
 
+  // Add the data
   const toDatabase = (entity) => {
     return {
       salonId: entity.salonId,

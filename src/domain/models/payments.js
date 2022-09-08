@@ -1,5 +1,6 @@
 const { attributes } = require('structure');
 
+//Booking payment data validation
 const Payment = attributes({
   paymentId: { type: String, required: true, exactLength: 40 },
   paymentDate: { type: String, required: true },
