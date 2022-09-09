@@ -8,8 +8,19 @@ module.exports = () => {
     };
   };
 
+  const accessResponse = (success = true, acceessToken) => {
+    return {
+      success,
+      acceessToken,
+    };
+  };
+
   const success = (data, pagination) => {
     return assoc('data', data, defaultResponse(true, pagination));
+  };
+
+  const access = (data, acceessToken) => {
+    return assoc('data', data, accessResponse(true, acceessToken));
   };
 
   const fail = (data) => {
@@ -22,6 +33,7 @@ module.exports = () => {
 
   return {
     success,
+    access,
     fail,
     loginFail,
   };

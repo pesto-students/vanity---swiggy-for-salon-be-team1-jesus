@@ -33,6 +33,10 @@ This folder contains files that writes the data in the database modal. All the w
 
 This folder contains the models folder which validates the data entered by customer and repository folder which queries the database, perform the logic and return the data.
 
+## Tests
+
+This folder contains tests cases.
+
 # Table of Contents
 
 1. [Demo](#demo)
@@ -45,7 +49,7 @@ This folder contains the models folder which validates the data entered by custo
 
 # Demo
 
-[Live Demo](https://vanity-swiggy-for-salons-be.herokuapp.com/)
+[Live Demo]()
 
 <br/>
 
@@ -82,7 +86,7 @@ Please Note:
    ```sh
    npm install
    ```
-4. Run
+4. Run dev
    ```sh
    npm run dev
    ```
@@ -91,6 +95,11 @@ Please Note:
 6. Run Test cases
    ```sh
    npm test
+   ```
+7. Run Production ready code </br>
+   It will create a dist folder and and outputs all the files from src folder.
+   ```sh
+   npm run prod
    ```
    <br/>
 
@@ -104,6 +113,7 @@ We tried to use a completely modern tech stack while testing out some new techno
 - [Sequalize](https://sequelize.org/)
 - [Jest](https://jestjs.io/) (Testing)
 - [NewRelic](https://newrelic.com/) (Monitoring)
+- [Nodemailer](https://nodemailer.com/about/)
 
 <br/>
 
