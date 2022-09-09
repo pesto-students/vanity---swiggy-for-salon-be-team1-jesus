@@ -14,7 +14,7 @@ const email = (booking) => {
         <meta charset="utf-8">
       </head>
       <body>
-        <h1>Booking Confirmed</h1>
+        <h1>Your salon appointment is Confirmed!</h1>
         <p>Booking Id: ${booking.bookingId}</p>
         <p>Booking Date: ${booking.bookingDate}</p>
         <p>Slot: ${booking.startTime} - ${booking.endTime}</p>

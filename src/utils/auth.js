@@ -1,34 +1,28 @@
+require('dotenv').config();
 const { sign, verify } = require('jsonwebtoken');
 
 const createToken = (user) => {
   const accessToken = sign(
     { useremail: user.email, id: user.userId, username: user.name },
-    'jsonsecret'
+    process.env.JWT_SECRET
   );
 
   return accessToken;
 };
 
 const validateToken = (req, res, next) => {
-  const accessToken = req.cookies['access-token'];
-
-  if (!accessToken)
-    return res.status(400).json({
-      error: 'User not authenticated',
-    });
-
   try {
-    const validToken = verify(accessToken, 'jsonsecret');
-    console.log('validtoken', validToken);
+    const token = req.headers.authorization.split(' ')[1];
+    const validToken = verify(token, process.env.JWT_SECRET);
     if (validToken) {
       req.authenticated = true;
       req.userId = validToken.id;
       req.email = validToken.useremail;
-      return next();
+      next();
     }
   } catch (e) {
     return res.status(400).json({
-      error: err,
+      error: e,
     });
   }
 };

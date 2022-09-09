@@ -71,16 +71,19 @@ Please Note:
    ```
 2. Set environment variables
 
-   PORT=<br />
-   MYSQL_HOST=<br />
-   MYSQL_USER=<br />
-   MYSQL_PASSWORD=<br />
-   MYSQL_DATABASE=<br />
-   NEWRELIC_LICENSE_KEY=<br />
-   EMAIL_ADDRESS=<br />
-   EMAIL_SECRET_KEY=<br />
-   EMAIL_HOST=<br />
-   EMAIL_PORT=<br />
+   PORT (Node server port)<br />
+   MYSQL_HOST (Mysql host address)<br />
+   MYSQL_USER (Mysql userid)<br />
+   MYSQL_PASSWORD (Mysql password)<br />
+   MYSQL_DATABASE (Mysql database name)<br />
+   NEWRELIC_LICENSE_KEY (NewRelic license key)<br />
+   EMAIL_ADDRESS (Email address which can be used to send mails)<br />
+   EMAIL_SECRET_KEY (16 digit email secret key for authentication )<br />
+   EMAIL_HOST (Host server address like mail.smtp.com)<br />
+   EMAIL_PORT (Email accessible port)<br />
+   RAZOR_PAY_KEY_ID (Razorpay payment app login id)<br />
+   RAZOR_PAY_KEY_SECRET (Razorpay payment app login password)<br />
+   JWT_SECRET (JWT token secret string)<br />
 
 3. Install NPM packages
    ```sh
@@ -96,7 +99,7 @@ Please Note:
    ```sh
    npm test
    ```
-7. Run Production ready code </br>
+7. Run Production ready code (Build) </br>
    It will create a dist folder and and outputs all the files from src folder.
    ```sh
    npm run prod
