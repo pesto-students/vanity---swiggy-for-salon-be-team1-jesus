@@ -65,9 +65,10 @@ module.exports = ({ logger, database, repository, output }) => {
 
         const accessToken = createToken(user);
         res.cookie('access-token', accessToken, {
-          maxAge: 60 * 10 * 1000,
+          maxAge: 60 * 10 * 2 * 1000,
         });
-        res.status(Status.OK).json(output.success(user));
+        console.log('12345', accessToken);
+        res.status(Status.OK).json(output.access(user, accessToken));
       } else {
         logger.info('Provide login email and password.');
         res

@@ -10,7 +10,7 @@ module.exports = async (req, payload, context, t, repository) => {
 
   payload.paymentId = PID;
   const payment = new Payment(payload);
-  const new_payment = await paymentRepository.add(req, payment, t);
+  const new_payment = await paymentRepository.add(payment, t);
 
   return new_payment;
 };

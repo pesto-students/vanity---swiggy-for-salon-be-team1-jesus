@@ -8,30 +8,6 @@ module.exports = ({ database }) => {
       where: { bookingId: payment.bookingId },
     });
 
-    let session;
-    try {
-      session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        success_url: 'https://google.com', //`${req.protocol}://${req.get('host')}/`,
-        cancel_url: 'https://facebook.com', //`${req.protocol}://${req.get('host')}/salon/book`,
-        customer_email: payment.email,
-        client_reference_id: booking.dataValues.bookingId,
-        mode: 'payment',
-        line_items: [
-          {
-            quantity: 1,
-            price_data: {
-              product: process.env.PRODUCT_KEY,
-              currency: 'INR',
-              unit_amount: +booking.dataValues.totalAmount * 100,
-            },
-          },
-        ],
-      });
-    } catch (e) {
-      return e;
-    }
-
     const data = toDatabase(payment);
     const new_payment = await database.models.payment.create(data, {
       transaction: t,

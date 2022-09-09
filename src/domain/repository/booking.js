@@ -1,6 +1,7 @@
 const booking = require('../../domain/models/booking');
 const logic = require('./logic');
 const { Op } = require('sequelize');
+const email = require('../../utils/email');
 
 module.exports = ({ database }) => {
   const add = async (booking, t) => {
@@ -22,6 +23,7 @@ module.exports = ({ database }) => {
         const new_booking = await database.models.booking.create(data, {
           transaction: t,
         });
+        email(booking);
         return toDomain(new_booking);
       } else {
         return 'total amount is mismatched';
