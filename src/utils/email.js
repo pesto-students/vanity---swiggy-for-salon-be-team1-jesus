@@ -5,7 +5,7 @@ const email = ({ dataValues }) => {
   //Email message options
   const mailOptions = {
     from: process.env.EMAIL,
-    to: 'Vivekhande16sep@gmail.com',
+    to: 'aryanishthaa@gmail.com',
     subject: 'Vanity -- Swiggy for salons',
     text: 'Your Booking status',
     html: `<!doctype html>
@@ -39,9 +39,7 @@ const email = ({ dataValues }) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log('err', error);
-    } else {
-      console.log('Emai send: ', info);
+      throw new Error(error);
     }
   });
 };
