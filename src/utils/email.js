@@ -1,7 +1,7 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-const email = (booking) => {
+const email = ({ dataValues }) => {
   //Email message options
   const mailOptions = {
     from: process.env.EMAIL,
@@ -15,10 +15,13 @@ const email = (booking) => {
       </head>
       <body>
         <h1>Your salon appointment is Confirmed!</h1>
-        <p>Booking Id: ${booking.bookingId}</p>
-        <p>Booking Date: ${booking.bookingDate}</p>
-        <p>Slot: ${booking.startTime} - ${booking.endTime}</p>
-        <p>Amount: ${booking.totalAmount}</p>
+        <p>Booking Id: ${dataValues.bookingId}</p>
+        <p>Salon name: ${dataValues.salonName}</p>
+        <p>Booking Date: ${dataValues.bookingDate}</p>
+        <p>Slot: ${dataValues.startTime} - ${dataValues.endTime}</p>
+        <p>Amount: ${dataValues.totalAmount}</p>
+        <p>Selected services: ${dataValues.svc[0]}</p>
+        <p>Stylist: ${dataValues.staffName}</p> 
       </body>
     </html>`,
   };

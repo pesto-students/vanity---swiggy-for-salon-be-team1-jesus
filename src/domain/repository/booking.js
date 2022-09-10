@@ -23,7 +23,52 @@ module.exports = ({ database }) => {
         const new_booking = await database.models.booking.create(data, {
           transaction: t,
         });
-        email(booking);
+
+        if (new_booking) {
+          let bookingData = await database.models.booking.findOne({
+            where: {
+              bookingId: booking.bookingId,
+            },
+            include: [
+              {
+                model: database.models.salon,
+                attributes: ['name'],
+                required: true,
+              },
+              {
+                model: database.models.user,
+                attributes: ['name'],
+                required: true,
+              },
+              {
+                model: database.models.staff,
+                attributes: ['name'],
+                required: true,
+              },
+            ],
+            transaction: t,
+          });
+
+          bookingData.dataValues.salonName = bookingData.salon.dataValues.name;
+          bookingData.dataValues.userName = bookingData.user.dataValues.name;
+          bookingData.dataValues.staffName = bookingData.staff.dataValues.name;
+
+          bookingData.dataValues.svc = [];
+
+          const svcName = await database.models.service.findAll({
+            where: {
+              serviceId: {
+                [Op.or]: bookingData.dataValues.serviceIds,
+              },
+            },
+          });
+
+          bookingData.dataValues.svc.push(svcName.map((s) => s.subservice));
+
+          email(bookingData);
+          return toDomain(bookingData);
+        }
+
         return toDomain(new_booking);
       } else {
         return 'total amount is mismatched';

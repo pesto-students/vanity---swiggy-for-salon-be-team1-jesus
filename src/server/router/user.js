@@ -45,7 +45,7 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(user));
       } else {
         logger.info('Enter Proper data.');
-        res.status(Status.BAD_REQUEST).json(output.fail());
+        res.status(Status.BAD_REQUEST).json(output.fail('Enter proper data'));
       }
     } catch (e) {
       await t.rollback();

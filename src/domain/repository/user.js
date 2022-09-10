@@ -10,10 +10,7 @@ module.exports = ({ database }) => {
       transaction: t,
     });
 
-    console.log('1234', new_user);
-    const k = toDomain(new_user);
-    console.log('000', k);
-    return k;
+    return toDomain(new_user);
   };
 
   const getAll = async (user, t) => {
