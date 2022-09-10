@@ -29,6 +29,22 @@ module.exports = (err, req, res, next, logger, config, output) => {
         })
       );
       break;
+    case 'EmailNotFound':
+      res.status(Status.BAD_REQUEST).json(
+        output.fail({
+          type: 'NotFoundError',
+          info: 'Email doesnt exixts',
+        })
+      );
+      break;
+    case 'PasswordNotMatch':
+      res.status(Status.BAD_REQUEST).json(
+        output.fail({
+          type: 'PasswordNotMatch',
+          info: 'Wrong password entered',
+        })
+      );
+      break;
     default:
       break;
   }
