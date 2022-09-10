@@ -5,11 +5,11 @@ module.exports = (err, req, res, next, logger, config, output) => {
   // eslint-disable-line no-unused-vars
   logger.error(err);
   switch (err.message) {
-    case 'ValidationError':
+    case 'Validation error':
       res.status(Status.BAD_REQUEST).json(
         output.fail({
           type: 'ValidationError',
-          info: err.details,
+          info: err.original.sqlMessage || err.message,
         })
       );
       break;
@@ -29,13 +29,29 @@ module.exports = (err, req, res, next, logger, config, output) => {
         })
       );
       break;
+    case 'EmailNotFound':
+      res.status(Status.BAD_REQUEST).json(
+        output.fail({
+          type: 'NotFoundError',
+          info: 'Email doesnt exixts',
+        })
+      );
+      break;
+    case 'PasswordNotMatch':
+      res.status(Status.BAD_REQUEST).json(
+        output.fail({
+          type: 'PasswordNotMatch',
+          info: 'Wrong password entered',
+        })
+      );
+      break;
     default:
       break;
   }
 
   const response = Object.assign(
     {
-      type: 'InternalServerError',
+      type: 'BadRequestError',
       info: err.message,
     },
     config.environment === 'dev' && {
@@ -43,5 +59,5 @@ module.exports = (err, req, res, next, logger, config, output) => {
     }
   );
 
-  res.status(Status.INTERNAL_SERVER_ERROR).json(output.fail(response));
+  res.status(Status.BAD_REQUEST).json(output.fail(response));
 };

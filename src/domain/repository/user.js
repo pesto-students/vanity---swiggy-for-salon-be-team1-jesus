@@ -37,10 +37,11 @@ module.exports = ({ database }) => {
       transaction: t,
     });
 
+    if (!new_user) throw new Error('EmailNotFound');
     //Comapare the password with hashed value
     const { dataValues } = new_user;
     let bool = bcrypt.compareSync(data.password, dataValues.password);
-    if (!bool) throw new Error('Password is wrong!');
+    if (!bool) throw new Error('PasswordNotMatch');
     return toDomain(new_user);
   };
 

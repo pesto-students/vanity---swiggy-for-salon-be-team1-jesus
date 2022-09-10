@@ -45,7 +45,7 @@ module.exports = ({ logger, database, repository, output }) => {
         res.status(Status.OK).json(output.success(user));
       } else {
         logger.info('Enter Proper data.');
-        res.status(Status.BAD_REQUEST).json(output.fail());
+        res.status(Status.BAD_REQUEST).json(output.fail('Enter proper data'));
       }
     } catch (e) {
       await t.rollback();
@@ -67,7 +67,7 @@ module.exports = ({ logger, database, repository, output }) => {
         res.cookie('access-token', accessToken, {
           maxAge: 60 * 10 * 2 * 1000,
         });
-        console.log('12345', accessToken);
+
         res.status(Status.OK).json(output.access(user, accessToken));
       } else {
         logger.info('Provide login email and password.');
@@ -77,6 +77,7 @@ module.exports = ({ logger, database, repository, output }) => {
       }
     } catch (e) {
       await t.rollback();
+      console.log('22', e);
       logger.error(e);
       next(e);
     }
