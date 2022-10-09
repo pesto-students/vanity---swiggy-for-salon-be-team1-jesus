@@ -123,6 +123,7 @@ We tried to use a completely modern tech stack while testing out some new techno
 # Authors
 
 - [Vivek Hande](https://github.com/VivekHande16)
+- [Nishtha Arya](https://github.com/nishthaarya)
 
 <br/>
 
