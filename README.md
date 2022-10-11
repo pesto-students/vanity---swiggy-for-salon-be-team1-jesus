@@ -10,6 +10,17 @@ For front-end repository <a href="https://github.com/pesto-students/vanity---swi
 <!-- TABLE OF CONTENTS -->
 <br/>
 
+# Table of Contents
+
+1. [Folder structure](#folderstructure)
+2. [Demo](#demo)
+3. [Installation](#installation)
+4. [Technology Stack](#technology-stack)
+5. [Authors](#authors)
+6. [License](#license)
+
+<br/>
+
 # Folder structure
 
 ![](/Images/folderstructure.png)
@@ -37,16 +48,6 @@ This folder contains the models folder which validates the data entered by custo
 ## Tests
 
 This folder contains tests cases.
-
-# Table of Contents
-
-1. [Demo](#demo)
-2. [Installation](#installation)
-3. [Technology Stack](#technology-stack)
-4. [Authors](#authors)
-5. [License](#license)
-
-<br/>
 
 # Demo
 
